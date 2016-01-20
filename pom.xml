@@ -13,7 +13,7 @@
         <scala.minor-version>_2.11</scala.minor-version>
         <undertow-version>1.3.12.Final</undertow-version>
         <slf4j-log4j12-version>1.7.13</slf4j-log4j12-version>
-        <typesafe.config-version>1.3.0</typesafe.config-version>
+        <typesafe.config-version>1.2.1</typesafe.config-version>
         <mysql-connector-version>5.1.38</mysql-connector-version>
         <scala-juice-version>4.0.1</scala-juice-version>
     </properties>

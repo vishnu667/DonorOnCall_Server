@@ -1,10 +1,9 @@
 package com.donoroncall.server.rest.undertow
 
 import com.donoroncall.server.rest.ServerInterface
-import com.donoroncall.server.rest.undertow.Routes
 import com.google.inject.Inject
 import com.typesafe.config.Config
-import io.undertow.{UndertowOptions, Undertow}
+import io.undertow.Undertow
 import org.slf4j.{LoggerFactory, Logger}
 
 /**
@@ -27,15 +26,14 @@ class UndertowApiServer @Inject()(config: Config,routes: Routes) extends ServerI
       try {
         server = Undertow.builder.addHttpListener(port, interfaceName)
           .setHandler(routes.getAllHandlers)
-          .setServerOption(UndertowOptions.IDLE_TIMEOUT, config.getInt("server.api.idle_timeout") * 1000l)
           .build
 
         server.start()
         isServerActive = true
-        LOG.error("The Server is Active on http://" + interfaceName + ":" + port)
+        LOG.info("The Server is Active on http://" + interfaceName + ":" + port)
         true
       } catch {
-        case e: Exception => LOG.info("Server Initialization Failed ", e.getLocalizedMessage)
+        case e: Exception => LOG.error("Server Initialization Failed ", e.getLocalizedMessage)
           false
       }
     }
