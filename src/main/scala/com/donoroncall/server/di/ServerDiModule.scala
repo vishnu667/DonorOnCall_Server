@@ -1,5 +1,6 @@
 package com.donoroncall.server.di
 
+import com.donoroncall.server.connectors.MysqlClient
 import com.donoroncall.server.rest.ServerInterface
 import com.donoroncall.server.rest.undertow.UndertowApiServer
 import com.google.inject.{AbstractModule, Binder, Module}
@@ -13,7 +14,7 @@ class ServerDiModule(config: Config) extends AbstractModule with ScalaModule {
   override def configure(): Unit = {
 
     bind[Config].toInstance(config)
-
+    bind[MysqlClient].asInstanceOf[Singleton]
     bind[ServerInterface].to[UndertowApiServer].asInstanceOf[Singleton]
   }
 }
