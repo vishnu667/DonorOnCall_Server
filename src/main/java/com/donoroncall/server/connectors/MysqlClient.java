@@ -16,17 +16,17 @@ import java.sql.SQLException;
 public class MysqlClient {
 
     private Logger LOG = LoggerFactory.getLogger(this.getClass());
-    private String dbc;
+    public String dbc;
 
     private Connection connection;
 
     @Inject
     public MysqlClient(Config config) throws SQLException {
-        String host = config.getString("ml.mysql.host");
-        String port = config.getString("ml.mysql.port");
-        String user = config.getString("ml.mysql.user");
-        String password = config.getString("ml.mysql.password");
-        String db = config.getString("ml.mysql.db");
+        String host = config.getString("server.mysql.host");
+        String port = config.getString("server.mysql.port");
+        String user = config.getString("server.mysql.user");
+        String password = config.getString("server.mysql.password");
+        String db = config.getString("server.mysql.db");
         this.dbc = "jdbc:mysql://" + host + ":" + port + "/" + db + "?user=" + user + "&password=" + password;
         this.connection = DriverManager.getConnection(dbc);
     }
@@ -49,6 +49,16 @@ public class MysqlClient {
         } catch (SQLException e) {
             LOG.debug("Error for Query " + query, e);
             return null;
+        }
+    }
+
+    public boolean executeQuery(String query) {
+        try {
+            LOG.debug("Executing query " + query);
+            return getConnection().createStatement().execute(query);
+        } catch (SQLException e) {
+            LOG.debug("Error for Query " + query, e);
+            return false;
         }
     }
 }

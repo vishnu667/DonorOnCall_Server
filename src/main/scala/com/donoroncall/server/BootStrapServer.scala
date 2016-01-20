@@ -1,5 +1,6 @@
 package com.donoroncall.server
 
+import com.donoroncall.server.connectors.MysqlClient
 import com.donoroncall.server.di.ServerDiModule
 import com.donoroncall.server.rest.ServerInterface
 import com.google.inject.Guice
@@ -23,4 +24,5 @@ object BootStrapServer extends App {
 
   serverInterface.startServer
 
+  val mysqlClient = injector.getInstance(classOf[MysqlClient])
 }
