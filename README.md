@@ -1,5 +1,7 @@
 # DonorOnCall_Server
 
+[![Join the chat at https://gitter.im/vishnu667/DonorOnCall_Server](https://badges.gitter.im/vishnu667/DonorOnCall_Server.svg)](https://gitter.im/vishnu667/DonorOnCall_Server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The Server application for the Donor on Call Service.
 
 
