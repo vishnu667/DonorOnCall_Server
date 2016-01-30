@@ -1,29 +1,29 @@
-package com.donoroncall.server.rest.controllers
+package com.donoroncall.server.rest.controllers.authentication
+
+import java.security.MessageDigest
 
 import com.donoroncall.server.BootStrapServer.mysqlClient
-import java.security.MessageDigest
+import com.google.inject.Inject
 
 /**
   * Created by vishnu on 20/1/16.
   */
-object AuthenticationController {
+class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
 
-
-  def login(username: String, password: String): Long = {
-    val query = "SELECT passwordHash,userId from users where username='" + username+"'"
+  def login(username: String, password: String): String = {
+    val query = "SELECT passwordHash,userId from users where username='" + username + "'"
     val resultSet = mysqlClient.getResultSet(query)
     if (resultSet.next()) {
       val passwordHash = resultSet.getString(1)
       if (passwordHash == hash(password)) {
-        resultSet.getLong(2)
-      } else 0
-    } else 0
+        sessionHandler.createSessionTokenForUser(resultSet.getLong(2))
+      } else ""
+    } else ""
   }
 
   def addNewUser(userName: String, password: String, email: String): Boolean = {
     //TODO add more validations if user exists etc
     val insertQuery = "INSERT INTO users (userName,passwordHash,email) VALUES ('" + userName + "','" + hash(password) + "','" + email + "')"
-
     mysqlClient.executeQuery(insertQuery)
   }
 
