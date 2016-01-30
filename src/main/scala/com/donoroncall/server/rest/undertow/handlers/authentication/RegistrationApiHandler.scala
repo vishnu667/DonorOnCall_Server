@@ -2,6 +2,7 @@ package com.donoroncall.server.rest.undertow.handlers.authentication
 
 import com.donoroncall.server.rest.controllers.authentication.AuthenticationController
 import com.google.inject.Inject
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
 import spray.json._
@@ -42,6 +43,13 @@ class RegistrationApiHandler @Inject()(authenticationController: AuthenticationC
         }
 
 
+      } catch {
+        case e: Exception => {
+          exchange.getResponseSender.send(JsObject(
+            "status" -> JsString("failed"),
+            "message" -> JsString("Registration Failed")
+          ).prettyPrint)
+        }
       }
     }
 

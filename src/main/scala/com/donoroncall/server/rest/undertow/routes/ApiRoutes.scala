@@ -18,5 +18,5 @@ class ApiRoutes @Inject()(
 
   val pathHandler = new PathHandler()
     .addExactPath("/", defaultApiHandler)
-    .addExactPath("/get/user", getUserHandler)
+    .addExactPath("/user/get", getUserHandler)
 }
