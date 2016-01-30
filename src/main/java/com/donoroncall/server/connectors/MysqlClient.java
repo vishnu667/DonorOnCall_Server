@@ -55,8 +55,9 @@ public class MysqlClient {
     public boolean executeQuery(String query) {
         try {
             LOG.debug("Executing query " + query);
-            return getConnection().createStatement().execute(query);
-        } catch (SQLException e) {
+            getConnection().createStatement().execute(query);
+            return true;
+        } catch (Exception e) {
             LOG.debug("Error for Query " + query, e);
             return false;
         }

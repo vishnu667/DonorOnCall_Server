@@ -1,7 +1,9 @@
 package com.donoroncall.server.rest.undertow.handlers.authentication
 
-import com.donoroncall.server.rest.controllers.AuthenticationController
+import com.donoroncall.server.rest.controllers.authentication.{SessionHandler, AuthenticationController}
+import com.google.inject.Inject
 import io.undertow.server.{HttpHandler, HttpServerExchange}
+import io.undertow.util.HttpString
 import org.apache.commons.io.IOUtils
 import org.slf4j.{Logger, LoggerFactory}
 import spray.json._
@@ -9,7 +11,7 @@ import spray.json._
 /**
   * Created by vishnu on 20/1/16.
   */
-class LoginApiHandler extends HttpHandler {
+class LoginApiHandler @Inject()(authenticationController: AuthenticationController, sessionHandler: SessionHandler) extends HttpHandler {
   val LOG: Logger = LoggerFactory.getLogger(this.getClass)
 
   override def handleRequest(exchange: HttpServerExchange): Unit = {
@@ -26,12 +28,13 @@ class LoginApiHandler extends HttpHandler {
         val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
         val password = requestJson.getFields("password").head.asInstanceOf[JsString].value
 
-        val userId = AuthenticationController.login(userName, password)
+        val authToken = authenticationController.login(userName, password)
 
-        if (userId != 0) {
-          //TODO add logic for Authenticated User
+        if (authToken != "") {
+          exchange.getResponseHeaders.add(new HttpString("auth-token"), authToken)
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("ok"),
+            "token" -> JsString(authToken),
             "message" -> JsString("Login successful")
           ).prettyPrint)
 
@@ -42,6 +45,12 @@ class LoginApiHandler extends HttpHandler {
             "message" -> JsString("Invalid userName and password")
           ).prettyPrint)
         }
+      } catch {
+        case e: Exception =>
+          exchange.getResponseSender.send(JsObject(
+            "status" -> JsString("failed"),
+            "message" -> JsString("Server Exception")
+          ).prettyPrint)
       }
     }
 
