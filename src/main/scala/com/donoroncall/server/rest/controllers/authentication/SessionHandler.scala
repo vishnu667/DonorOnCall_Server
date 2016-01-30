@@ -20,6 +20,8 @@ trait SessionHandler {
 
   def createSessionTokenForUser(userId: Long): String
 
+  def clearSessionToken(token: String): Unit
+
   def clearAllSessions: Boolean
 
   def getAllSessions: JsObject

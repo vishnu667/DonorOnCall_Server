@@ -1,6 +1,5 @@
 package com.donoroncall.server.rest.controllers.authentication
 
-import com.donoroncall.server.models.User
 import com.donoroncall.server.utils.TokenGenerator
 import com.google.inject.Inject
 import com.typesafe.config.Config
@@ -48,5 +47,9 @@ class InMemorySessionHandler @Inject()(config: Config) extends SessionHandler {
     val response = new JsObject(InMemorySessionHandler.cache.map(i => i._1 -> JsNumber(i._2._1)).toMap)
     println(response)
     response
+  }
+
+  override def clearSessionToken(token: String): Unit = {
+    InMemorySessionHandler.cache.remove(token)
   }
 }
