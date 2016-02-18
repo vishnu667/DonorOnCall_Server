@@ -10,3 +10,34 @@ passwordHash varchar(128),
 email varchar(255) UNIQUE,
 PRIMARY KEY (userId)
 );
+
+
+
+
+
+WIP Code Changes required for the below to work
+
+```
+CREATE TABLE users
+  (
+     userid             BIGINT NOT NULL auto_increment,
+     username           VARCHAR(255) NOT NULL UNIQUE,
+     password_hash      VARCHAR(128),
+     email              VARCHAR(255) UNIQUE,
+     address_1          VARCHAR(255),
+     address_2          VARCHAR(255),
+     locality           VARCHAR(255),
+     city               VARCHAR(255),
+     blood_group        VARCHAR(20),
+     account_status     VARCHAR(20),
+     health_information VARCHAR(1024),
+     is_donor           BOOLEAN NOT NULL DEFAULT 0,
+     is_recipient       BOOLEAN NOT NULL DEFAULT 0,
+     is_admin_approved  BOOLEAN NOT NULL DEFAULT 0,
+     join_date          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     request_count      INT DEFAULT 0,
+     fulfilled_count    INT DEFAULT 0,
+     donation_count     INT DEFAULT 0,
+     PRIMARY KEY (userid)
+  );
+```
