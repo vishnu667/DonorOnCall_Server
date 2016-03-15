@@ -1,5 +1,6 @@
 package com.donoroncall.server.rest.undertow.handlers.authentication
 
+import javax.xml.ws.spi.http.HttpHandler
 import com.donoroncall.server.rest.controllers.authentication.AuthenticationController
 import com.google.inject.Inject
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException
@@ -8,9 +9,9 @@ import org.apache.commons.io.IOUtils
 import spray.json._
 
 /**
-  * Created by vishnu on 20/1/16.
-  */
-class RegistrationApiHandler @Inject()(authenticationController: AuthenticationController) extends HttpHandler {
+ * Created by Anmol on 9/3/16.
+ */
+class RequestForBlood @Inject()(authenticationController: AuthenticationController) extends HttpHandler {
   override def handleRequest(exchange: HttpServerExchange): Unit = {
     if (exchange.isInIoThread) {
       exchange.dispatch(this)
@@ -21,27 +22,27 @@ class RegistrationApiHandler @Inject()(authenticationController: AuthenticationC
 
         val requestJson = request.parseJson.asJsObject
 
-        val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
-        val name = requestJson.getFields("password").head.asInstanceOf[JsString].value
-        val dob = requestJson.getFields("email").head.asInstanceOf[JsString].value
-        val bloodGroup = requestJson.getFields("bloodGroup").head.asInstanceOf[JsString].value
-        val password = requestJson.getFields("password").head.asInstanceOf[JsString].value
-        val confirmPassword = requestJson.getFields("confirmPassword").head.asInstanceOf[JsString].value
+        val blood_group = requestJson.getFields("bloodGroup").head.asInstanceOf[JsString].value
+        val hospital_name = requestJson.getFields("hospitalName").head.asInstanceOf[JsString].value
+        val patient_Name = requestJson.getFields("patientName").head.asInstanceOf[JsString].value
+        val purpose = requestJson.getFields("purpose").head.asInstanceOf[JsString].value
+        val units = requestJson.getFields("units").head.asInstanceOf[JsString].value
+        val how_Soon = requestJson.getFields("howSoon").head.asInstanceOf[JsString].value
 
-        val userId = authenticationController.addNewUser(userName, password, name, bloodGroup, dob, confirmPassword)
+        val userId = authenticationController.addNewRecipient(blood_group, hospital_name, patient_Name, purpose, units, how_Soon)
 
         if (userId) {
-          //TODO add logic for Successful Registration
+
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("ok"),
-            "message" -> JsString("Registration successful")
+            "message" -> JsString("New Recipient Added, waiting for Admin approval.")
           ).prettyPrint)
 
         } else {
           //TODO add logic for Failed Registration
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
-            "message" -> JsString("Registration Failed")
+            "message" -> JsString("Request for blood Failed")
           ).prettyPrint)
         }
 
@@ -50,7 +51,7 @@ class RegistrationApiHandler @Inject()(authenticationController: AuthenticationC
         case e: Exception => {
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
-            "message" -> JsString("Registration Failed")
+            "message" -> JsString("Request for blood Failed")
           ).prettyPrint)
         }
       }
