@@ -1,9 +1,7 @@
 package com.donoroncall.server.rest.undertow.handlers.authentication
 
-import javax.xml.ws.spi.http.HttpHandler
 import com.donoroncall.server.rest.controllers.authentication.AuthenticationController
 import com.google.inject.Inject
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
 import spray.json._
@@ -31,7 +29,7 @@ class RequestForBlood @Inject()(authenticationController: AuthenticationControll
 
         val userId = authenticationController.addNewRecipient(blood_group, hospital_name, patient_Name, purpose, units, how_Soon)
 
-        if (userId) {
+        if (userId == "") {
 
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("ok"),

@@ -51,7 +51,7 @@ class UpdateProfileHandler @Inject()(editProfileController:EditProfileController
         case e: Exception => {
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
-            "message" -> JsString("Could Not update Profile")
+            "message" -> JsString("Could Not update Profile/Server Error")
           ).prettyPrint)
         }
       }

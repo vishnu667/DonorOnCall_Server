@@ -21,46 +21,53 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
     } else ""
   }
 
-  def addNewUser(userName: String, password: String, name: String, bloodGroup: String, dob:String, confirmPassword:String): Unit = {
+  def addNewUser(userName: String, password: String, name: String, bloodGroup: String, dob:String, confirmPassword:String): Boolean = {
 
     val query = "SELECT * from users where username='" + userName + "'"
     val resultSet = mysqlClient.getResultSet(query)
     if( resultSet.next() == null){
+
       if(password == confirmPassword){
         //TODO add more validations if user exists etc // done now above query to confirm password and check if user exists
         // TO ADD LOGIG to add phone no and email at this point while adding user
         // TO DO  ADD logic to get lat long at this point, and update in the table
         val insertQuery = "INSERT INTO users (userName,passwordHash, name, bloodGroup, dob) VALUES ('" + userName + "','" + hash(password) + "','" + name  + "','"  + bloodGroup  + "','"  + dob  + "','"  +  "')"
         mysqlClient.executeQuery(insertQuery)
-
-      return true
-      }}}
-  def addNewRecipient(blood_group: String, hospital_name:String, patient_name: String, purpose: String, units:Integer, how_Soon:Integer): Unit ={
+      }else return false
+    }
+  else return  false}
+  def addNewRecipient(blood_group: String, hospital_name:String, patient_name: String, purpose: String, units:String, how_Soon:String): String={
     val insertQuery= " INSERT INTO recipients (bloodGroup, hospitalName, patientName,purpose, units, howSoon) VALUES ('"+  blood_group+"','"+ hospital_name+"','"+ patient_name +"','"+ purpose +"','"+ units +"','"+ how_Soon+")"
     mysqlClient.executeQuery(insertQuery)
+  return ""
   }
 
 
-  def addNewRecipientTable(blood_Group:String, latitude:Double, longitude:Double, userName:String): Unit ={
+  def addNewRecipientTable(blood_Group:String,adminResponse:String, latitude:String, longitude:String, userName:String): Boolean ={
     val selectQuery = "SELECT userName, latitude, longitide from users where bloodGroup='" + blood_Group + "'"
     val resultSet = mysqlClient.getResultSet(selectQuery)
     val createQuery = "CREATE TABLE "+ userName+ "_Recipient { userName VARCHAR(20), distance INTEGER } "
     mysqlClient.getResultSet(createQuery)
+    if(resultSet.next()!=null){
     while ( resultSet.next() != null){
       // keeping lat1, long1 to be of the recipient and lat2 long2 to be of each donor from the above resultset
       val donorName = resultSet.getString(1)
       val lat2 = resultSet.getDouble(2)
       val long2 = resultSet.getDouble(3)
+      val latitudeDouble = latitude.toDouble
+      val longitudeDouble = longitude.toDouble
 
-
-      val dist = calculateDistance(latitude, longitude, lat2, long2)
+      val dist = calculateDistance(latitudeDouble, longitudeDouble, lat2, long2)
 
       val insertQuery = " INSERT INTO "+ userName+"_Recipient (userName, distance) VALUES ('"+ donorName+"', " + dist+")"
-      mysqlClient.getResultSet(createQuery)
+      mysqlClient.getResultSet(insertQuery)
 
+
+
+    }
       return true
-
-    }}
+    } else return false
+  }
 
   def calculateDistance(lat1: Double,long1: Double, lat2: Double, long2:Double): Double ={
 

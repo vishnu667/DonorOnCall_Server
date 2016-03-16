@@ -2,7 +2,6 @@ package com.donoroncall.server.rest.undertow.handlers.admin
 
 import com.donoroncall.server.rest.controllers.authentication.AuthenticationController
 import com.google.inject.Inject
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
 import spray.json._
@@ -23,14 +22,15 @@ class AdminsApprovalReqAPI @Inject()(authenticationController: AuthenticationCon
 
         val blood_group = requestJson.getFields("bloodGroup").head.asInstanceOf[JsString].value
         val admin_response = requestJson.getFields("admin_response").head.asInstanceOf[JsString].value
-        val latitude = requestJson.getFields("patientName").head.asInstanceOf[JsString].value
-        val longitude = requestJson.getFields("purpose").head.asInstanceOf[JsString].value
-        val userName = requestJson.getFields("units").head.asInstanceOf[JsString].value
+        val latitude = requestJson.getFields("latitude").head.asInstanceOf[JsString].value
+        val longitude = requestJson.getFields("longitude").head.asInstanceOf[JsString].value
+        val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
 
-        val userId = authenticationController.addNewRecipientTable(blood_group,admin_response latitude, longitude, userName)
+        val userId = authenticationController.addNewRecipientTable(blood_group,admin_response, latitude, longitude, userName)
         if (userId) {
-          if(admin_response){
 
+          if(admin_response== "OK"){
+//TODO
             exchange.getResponseSender.send(JsObject(
               "status" -> JsString("ok"),
               "message" -> JsString(" List of donors according to distance is ready ")

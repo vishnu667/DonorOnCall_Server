@@ -1,11 +1,9 @@
 package com.donoroncall.server.rest.controllers.authentication
 
 import java.security.MessageDigest
-import javax.print.attribute.standard.RequestingUserName
 
 import com.donoroncall.server.BootStrapServer.mysqlClient
 import com.google.inject.Inject
-import scala.math._
 
 /**
  * Created by anmol on 11/3/16.
@@ -76,8 +74,9 @@ class EditProfileController @Inject()(sessionHandler: SessionHandler) {
   def updateProfile(userName: String, name: String, bloodGroup: String, dob:String): Boolean = {
 
     val query = "UPDATE users SET name = '"+ name +"', dob = '"+dob+"', bloodGroup = '"+bloodGroup+"'  WHERE username='" + userName + "'"
-    mysqlClient.getResultSet(query)
-
+    val resultSet = mysqlClient.getResultSet(query)
+    if(resultSet.next() !=null ) return true
+    else return false
   }
 
 
