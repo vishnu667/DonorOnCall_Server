@@ -30,7 +30,7 @@ class AdminsApprovalReqAPI @Inject()(authenticationController: AuthenticationCon
         if (userId) {
 
           if(admin_response== "OK"){
-//TODO
+//TO
             exchange.getResponseSender.send(JsObject(
               "status" -> JsString("ok"),
               "message" -> JsString(" List of donors according to distance is ready ")

@@ -20,7 +20,7 @@ class EditProfileHandler @Inject()(editProfileController:EditProfileController )
 
         val requestJson = request.parseJson.asJsObject
 
-        val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
+        val userName = requestJson.getFields("username").head.asInstanceOf[JsString].value
 
 
         val bloodGroup = editProfileController.getBloodGroup(userName)
@@ -28,7 +28,7 @@ class EditProfileHandler @Inject()(editProfileController:EditProfileController )
         val dob = editProfileController.getDob(userName)
 
         val name = editProfileController.getName(userName)
-
+        // TODO add phone number and email to the UI then add the option in backend also.
         // val email = editProfileController.getEmail(userName)
 
         // val phoneNo = editProfileController.getPhoneNo(userName)
@@ -37,7 +37,7 @@ class EditProfileHandler @Inject()(editProfileController:EditProfileController )
           // to verify if this is the correct way
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("ok"),
-            "userName" -> JsString(userName),
+            "username" -> JsString(userName),
             "bloodGroup" -> JsString(bloodGroup),
             "name" -> JsString(name),
             "dob" -> JsString(dob),

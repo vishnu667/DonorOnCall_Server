@@ -2,7 +2,6 @@ package com.donoroncall.server.rest.undertow.handlers.authentication
 
 import com.donoroncall.server.rest.controllers.authentication.AuthenticationController
 import com.google.inject.Inject
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
 import spray.json._
@@ -27,8 +26,10 @@ class RegistrationApiHandler @Inject()(authenticationController: AuthenticationC
         val bloodGroup = requestJson.getFields("bloodGroup").head.asInstanceOf[JsString].value
         val password = requestJson.getFields("password").head.asInstanceOf[JsString].value
         val confirmPassword = requestJson.getFields("confirmPassword").head.asInstanceOf[JsString].value
+        val latitude = requestJson.getFields("latitude").head.asInstanceOf[JsString].value
+        val longitude = requestJson.getFields("longitude").head.asInstanceOf[JsString].value
 
-        val userId = authenticationController.addNewUser(userName, password, name, bloodGroup, dob, confirmPassword)
+        val userId = authenticationController.addNewUser(userName, password, name, bloodGroup, dob, confirmPassword, latitude, longitude)
 
         if (userId) {
           //TODO add logic for Successful Registration

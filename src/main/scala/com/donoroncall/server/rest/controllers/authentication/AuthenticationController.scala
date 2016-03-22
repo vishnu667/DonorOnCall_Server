@@ -21,9 +21,9 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
     } else ""
   }
 
-  def addNewUser(userName: String, password: String, name: String, bloodGroup: String, dob:String, confirmPassword:String): Boolean = {
+  def addNewUser(username: String, password: String, name: String, blood_group: String, dob:String, confirmPassword:String, latitude:String, longitude:String): Boolean = {
 
-    val query = "SELECT * from users where username='" + userName + "'"
+    val query = "SELECT * from users where username='" + username + "'"
     val resultSet = mysqlClient.getResultSet(query)
     if( resultSet.next() == null){
 
@@ -31,22 +31,25 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
         //TODO add more validations if user exists etc // done now above query to confirm password and check if user exists
         // TO ADD LOGIG to add phone no and email at this point while adding user
         // TO DO  ADD logic to get lat long at this point, and update in the table
-        val insertQuery = "INSERT INTO users (userName,passwordHash, name, bloodGroup, dob) VALUES ('" + userName + "','" + hash(password) + "','" + name  + "','"  + bloodGroup  + "','"  + dob  + "','"  +  "')"
+        val insertQuery = "INSERT INTO users (userName,passwordHash, name, blood_group, dob, latitude, longitude) VALUES ('" + username + "','" + hash(password) + "','" + name  + "','"  + blood_group  + "','"  + dob  + "','"  + latitude  + "','"  + longitude  + "','"  +  "')"
         mysqlClient.executeQuery(insertQuery)
-      }else return false
+      }else  false
     }
-  else return  false}
-  def addNewRecipient(blood_group: String, hospital_name:String, patient_name: String, purpose: String, units:String, how_Soon:String): String={
-    val insertQuery= " INSERT INTO recipients (bloodGroup, hospitalName, patientName,purpose, units, howSoon) VALUES ('"+  blood_group+"','"+ hospital_name+"','"+ patient_name +"','"+ purpose +"','"+ units +"','"+ how_Soon+")"
+  else  false}
+
+
+
+  def addNewRecipient(blood_group: String, username:String, hospital_name:String, patient_name: String, purpose: String, request_count:String, how_Soon:String): String={
+    val insertQuery= " INSERT INTO recipients (blood_group, username, hospitalName, patientName,purpose, request_count, howSoon) VALUES ('"+  blood_group+"','"+ username+"','"+ hospital_name+"','"+ patient_name +"','"+ purpose +"','"+ request_count +"','"+ how_Soon+")"
     mysqlClient.executeQuery(insertQuery)
-  return ""
+   ""
   }
 
 
-  def addNewRecipientTable(blood_Group:String,adminResponse:String, latitude:String, longitude:String, userName:String): Boolean ={
-    val selectQuery = "SELECT userName, latitude, longitide from users where bloodGroup='" + blood_Group + "'"
+  def addNewRecipientTable(blood_group:String,adminResponse:String, latitude:String, longitude:String, username:String): Boolean ={
+    val selectQuery = "SELECT username, latitude, longitude from users where blood_group='" + blood_group + "'"
     val resultSet = mysqlClient.getResultSet(selectQuery)
-    val createQuery = "CREATE TABLE "+ userName+ "_Recipient { userName VARCHAR(20), distance INTEGER } "
+    val createQuery = "CREATE TABLE "+ username+ "_Recipient { username VARCHAR(20), distance INTEGER } "
     mysqlClient.getResultSet(createQuery)
     if(resultSet.next()!=null){
     while ( resultSet.next() != null){
@@ -59,14 +62,14 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
 
       val dist = calculateDistance(latitudeDouble, longitudeDouble, lat2, long2)
 
-      val insertQuery = " INSERT INTO "+ userName+"_Recipient (userName, distance) VALUES ('"+ donorName+"', " + dist+")"
+      val insertQuery = " INSERT INTO "+ username+"_Recipient (username, distance) VALUES ('"+ donorName+"', " + dist+")"
       mysqlClient.getResultSet(insertQuery)
 
 
 
     }
-      return true
-    } else return false
+       true
+    } else false
   }
 
   def calculateDistance(lat1: Double,long1: Double, lat2: Double, long2:Double): Double ={
@@ -83,13 +86,13 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
     dist = dist * 60 * 1.85315;
 
 
-    return dist
+     dist
 
   }
   def processComplete(userName: String): Boolean ={
     val query = "DROP TABLE " + userName+"_Recipient"
     mysqlClient.getResultSet(query)
-    return true
+     true
   }
 
   def hash(text: String): String = {

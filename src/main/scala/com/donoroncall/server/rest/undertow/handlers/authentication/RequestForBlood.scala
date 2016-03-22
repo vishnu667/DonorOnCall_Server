@@ -21,13 +21,14 @@ class RequestForBlood @Inject()(authenticationController: AuthenticationControll
         val requestJson = request.parseJson.asJsObject
 
         val blood_group = requestJson.getFields("bloodGroup").head.asInstanceOf[JsString].value
+        val username = requestJson.getFields("username").head.asInstanceOf[JsString].value
         val hospital_name = requestJson.getFields("hospitalName").head.asInstanceOf[JsString].value
         val patient_Name = requestJson.getFields("patientName").head.asInstanceOf[JsString].value
         val purpose = requestJson.getFields("purpose").head.asInstanceOf[JsString].value
         val units = requestJson.getFields("units").head.asInstanceOf[JsString].value
         val how_Soon = requestJson.getFields("howSoon").head.asInstanceOf[JsString].value
 
-        val userId = authenticationController.addNewRecipient(blood_group, hospital_name, patient_Name, purpose, units, how_Soon)
+        val userId = authenticationController.addNewRecipient(blood_group, username, hospital_name, patient_Name, purpose, units, how_Soon)
 
         if (userId == "") {
 

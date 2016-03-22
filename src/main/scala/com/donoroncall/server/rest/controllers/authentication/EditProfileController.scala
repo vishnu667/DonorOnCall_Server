@@ -13,70 +13,60 @@ class EditProfileController @Inject()(sessionHandler: SessionHandler) {
 
 
 
-  def getBloodGroup(userName: String): String = {
+  def getBloodGroup(username: String): String = {
 
-    val query = "SELECT bloodGroup from users where username='" + userName + "'"
+    val query = "SELECT blood_group from users where username='" + username + "'"
 
 
     val resultSet = mysqlClient.getResultSet(query)
-    val bloodGroup = resultSet.getString(1)
+    val blood_group = resultSet.getString(1)
 
-    return bloodGroup
+     blood_group
 
   }
 
   def getName(userName: String): String = {
 
-    val query = "SELECT name from users where username='" + userName + "'"
+    val query = "SELECT name from users where username= '" + userName + "'"
 
 
     val resultSet = mysqlClient.getResultSet(query)
     val name = resultSet.getString(1)
 
-    return name
+     name
 
   }
   def getDob(userName: String): String = {
 
-    val query = "SELECT dob from users where username='" + userName + "'"
+    val query = "SELECT dob from users where username= '" + userName + "'"
 
 
     val resultSet = mysqlClient.getResultSet(query)
     val dob = resultSet.getString(1)
 
-    return dob
+     dob
 
   }
 
 
   def getEmail(userName: String): String = {
 
-    val query = "SELECT email from users where username='" + userName + "'"
+    val query = "SELECT email from users where username= '" + userName + "'"
 
 
     val resultSet = mysqlClient.getResultSet(query)
     val email = resultSet.getString(1)
 
-    return email
+     email
 
   }
-  def getPhoneNo(userName: String): String = {
 
-    val query = "SELECT phoneNo from users where username='" + userName + "'"
-
-
-    val resultSet = mysqlClient.getResultSet(query)
-    val phoneNo = resultSet.getString(1)
-
-    return phoneNo
-
-  }
   def updateProfile(userName: String, name: String, bloodGroup: String, dob:String): Boolean = {
 
     val query = "UPDATE users SET name = '"+ name +"', dob = '"+dob+"', bloodGroup = '"+bloodGroup+"'  WHERE username='" + userName + "'"
     val resultSet = mysqlClient.getResultSet(query)
-    if(resultSet.next() !=null ) return true
-    else return false
+    if(resultSet.next() !=null )  true
+    else  false
   }
 
 
