@@ -39,8 +39,8 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
 
 
 
-  def addNewRecipient(blood_group: String, username:String, hospital_name:String, patient_name: String, purpose: String, request_count:String, how_Soon:String): String={
-    val insertQuery= " INSERT INTO recipients (blood_group, username, hospitalName, patientName,purpose, request_count, howSoon) VALUES ('"+  blood_group+"','"+ username+"','"+ hospital_name+"','"+ patient_name +"','"+ purpose +"','"+ request_count +"','"+ how_Soon+")"
+  def addNewRecipient(blood_group: String, username:String, hospital_name:String, patient_name: String, purpose: String, request_count:String, how_Soon:String, phoneNo:String, latitude:String, longitude:String): String={
+    val insertQuery= " INSERT INTO recipients (blood_group, username, hospitalName, patientName,purpose, request_count, howSoon, phoneNo, latitude, longitude) VALUES ('"+  blood_group+"','"+ username+"','"+ hospital_name+"','"+ patient_name +"','"+ purpose +"','"+ request_count +"','"+ how_Soon+" , "+ phoneNo+" , "+ latitude+" , "+ longitude +")"
     mysqlClient.executeQuery(insertQuery)
    ""
   }
@@ -64,6 +64,9 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
 
       val insertQuery = " INSERT INTO "+ username+"_Recipient (username, distance) VALUES ('"+ donorName+"', " + dist+")"
       mysqlClient.getResultSet(insertQuery)
+
+      val sortQuery = " SELECT * FROM "+ username+"_Recipient ORDER BY dist;"
+      mysqlClient.getResultSet(sortQuery)
 
 
 
@@ -89,9 +92,12 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
      dist
 
   }
-  def processComplete(userName: String): Boolean ={
+  def processComplete(userName: String, donationStatus:String, donorUserName:String, noOfUnits: Int, date:String): Boolean ={
     val query = "DROP TABLE " + userName+"_Recipient"
     mysqlClient.getResultSet(query)
+    val insertQuery = "INSERT INTO users (username, donationStatus, donorUserName, blood_group, date ) VALUES ('" + userName + "','" + donationStatus + "','" + donorUserName + "','"  + noOfUnits  + "','"  + date  + "')"
+    mysqlClient.getResultSet(insertQuery)
+
      true
   }
 

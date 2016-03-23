@@ -27,8 +27,11 @@ class RequestForBlood @Inject()(authenticationController: AuthenticationControll
         val purpose = requestJson.getFields("purpose").head.asInstanceOf[JsString].value
         val units = requestJson.getFields("units").head.asInstanceOf[JsString].value
         val how_Soon = requestJson.getFields("howSoon").head.asInstanceOf[JsString].value
+        val phoneNo = requestJson.getFields("phoneNo").head.asInstanceOf[JsString].value
+        val latitude = requestJson.getFields("latitude").head.asInstanceOf[JsString].value
+        val longitude = requestJson.getFields("longitude").head.asInstanceOf[JsString].value
 
-        val userId = authenticationController.addNewRecipient(blood_group, username, hospital_name, patient_Name, purpose, units, how_Soon)
+        val userId = authenticationController.addNewRecipient(blood_group, username, hospital_name, patient_Name, purpose, units, how_Soon,phoneNo, latitude, longitude)
 
         if (userId == "") {
 

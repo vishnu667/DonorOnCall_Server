@@ -20,11 +20,13 @@ class ProcessCompletion @Inject()(authenticationController: AuthenticationContro
 
         val requestJson = request.parseJson.asJsObject
 
-        val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
+        val userName = requestJson.getFields("username").head.asInstanceOf[JsString].value
         val donationStatus = requestJson.getFields("donationStatus").head.asInstanceOf[JsString].value
+        val donorUserName = requestJson.getFields("donorUserName").head.asInstanceOf[JsString].value
+        val noOfUnits = requestJson.getFields("noOfUnits").head.asInstanceOf[JsString].value
+        val date = requestJson.getFields("date").head.asInstanceOf[JsString].value
 
-
-        val userId = authenticationController.processComplete(userName)
+        val userId = authenticationController.processComplete(userName, donationStatus, donorUserName, noOfUnits, date)
 
         if (userId) {
 
