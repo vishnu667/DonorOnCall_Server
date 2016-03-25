@@ -68,7 +68,7 @@ class DonorSideNotificationHandler @Inject()(notificationController:Notification
             "message" -> JsString("Could not load recipient details")
           ).prettyPrint)
         }
-      } 
+      }
     }
 
   }

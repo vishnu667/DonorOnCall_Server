@@ -28,10 +28,10 @@ class EditProfileHandler @Inject()(editProfileController:EditProfileController )
         val dob = editProfileController.getDob(userName)
 
         val name = editProfileController.getName(userName)
-        // TODO add phone number and email to the UI then add the option in backend also.
-        // val email = editProfileController.getEmail(userName)
 
-        // val phoneNo = editProfileController.getPhoneNo(userName)
+        val email = editProfileController.getEmail(userName)
+
+         val phoneNo = editProfileController.getPhone(userName)
 
         if (userName != null) {
           // to verify if this is the correct way
@@ -41,10 +41,9 @@ class EditProfileHandler @Inject()(editProfileController:EditProfileController )
             "bloodGroup" -> JsString(bloodGroup),
             "name" -> JsString(name),
             "dob" -> JsString(dob),
-
-
-
-            "message" -> JsString("Registration successful")
+            "phoneNo" -> JsString(phoneNo),
+            "email" -> JsString(email),
+            "message" -> JsString("Profile Details Loaded")
           ).prettyPrint)
 
         } else {

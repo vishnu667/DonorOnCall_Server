@@ -48,6 +48,19 @@ class EditProfileController @Inject()(sessionHandler: SessionHandler) {
 
   }
 
+  def getPhone(userName: String): String = {
+
+    val query = "SELECT phoneNo from users where username= '" + userName + "'"
+
+
+    val resultSet = mysqlClient.getResultSet(query)
+    val email = resultSet.getString(1)
+
+    email
+
+  }
+
+
 
   def getEmail(userName: String): String = {
 
@@ -61,9 +74,9 @@ class EditProfileController @Inject()(sessionHandler: SessionHandler) {
 
   }
 
-  def updateProfile(userName: String, name: String, bloodGroup: String, dob:String): Boolean = {
+  def updateProfile(userName: String, name: String, bloodGroup: String, dob:String, phoneNo:String, email:String): Boolean = {
 
-    val query = "UPDATE users SET name = '"+ name +"', dob = '"+dob+"', bloodGroup = '"+bloodGroup+"'  WHERE username='" + userName + "'"
+    val query = "UPDATE users SET name = '"+ name +"', dob = '"+dob+"', bloodGroup = '"+bloodGroup +"', phoneNo = '"+phoneNo +"', email = '"+email+"'  WHERE username='" + userName + "'"
     val resultSet = mysqlClient.getResultSet(query)
     if(resultSet.next() !=null )  true
     else  false

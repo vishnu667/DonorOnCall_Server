@@ -24,6 +24,7 @@ CREATE TABLE users
      username           VARCHAR(255) NOT NULL UNIQUE,
      password_hash      VARCHAR(128),
      email              VARCHAR(255) UNIQUE,
+     phoneNo            VARCHAR(20),
      dob                VARCHAR(20),
      address_1          VARCHAR(255),
      address_2          VARCHAR(255),
@@ -59,6 +60,16 @@ CREATE TABLE users
   PRIMARY KEY (userid)
   };
 
+CREATE TABLE process_complete {
+  userid                BIGINT NOT NULL auto_increment,
+  blood_group           VARCHAR(20),
+  username              VARCHAR(255) NOT NULL UNIQUE,
+  donationStatus        VARCHAR(20),
+  donorUserName         VARCHAR(255),
+  units                 INT DEFAULT 0,
+  blood_group           VARCHAR(20),
+  date                  VARCHAR(20)
+}
 
 
 ```

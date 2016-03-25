@@ -23,10 +23,10 @@ class UpdateProfileHandler @Inject()(editProfileController:EditProfileController
         val name = requestJson.getFields("userName").head.asInstanceOf[JsString].value
         val dob = requestJson.getFields("userName").head.asInstanceOf[JsString].value
         val bloodGroup = requestJson.getFields("blood_group").head.asInstanceOf[JsString].value
-        // val phoneNo = requestJson.getFields("userName").head.asInstanceOf[JsString].value
-        //val email = requestJson.getFields("userName").head.asInstanceOf[JsString].value
+        val phoneNo = requestJson.getFields("phoneNo").head.asInstanceOf[JsString].value
+        val email = requestJson.getFields("email").head.asInstanceOf[JsString].value
 
-        val userId = editProfileController.updateProfile(userName, name, dob, bloodGroup)
+        val userId = editProfileController.updateProfile(userName, name, dob, bloodGroup, phoneNo, email)
 
 
 

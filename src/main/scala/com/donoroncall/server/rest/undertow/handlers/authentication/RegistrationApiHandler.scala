@@ -28,8 +28,11 @@ class RegistrationApiHandler @Inject()(authenticationController: AuthenticationC
         val confirmPassword = requestJson.getFields("confirmPassword").head.asInstanceOf[JsString].value
         val latitude = requestJson.getFields("latitude").head.asInstanceOf[JsString].value
         val longitude = requestJson.getFields("longitude").head.asInstanceOf[JsString].value
+        val phoneNo = requestJson.getFields("phoneNo").head.asInstanceOf[JsString].value
+        val email = requestJson.getFields("email").head.asInstanceOf[JsString].value
 
-        val userId = authenticationController.addNewUser(userName, password, name, bloodGroup, dob, confirmPassword, latitude, longitude)
+
+        val userId = authenticationController.addNewUser(userName, password, name, bloodGroup, dob, confirmPassword, latitude, longitude, phoneNo, email)
 
         if (userId) {
           //TODO add logic for Successful Registration

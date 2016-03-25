@@ -20,16 +20,16 @@ class AdminsApprovalReqAPI @Inject()(authenticationController: AuthenticationCon
 
         val requestJson = request.parseJson.asJsObject
 
-        val blood_group = requestJson.getFields("bloodGroup").head.asInstanceOf[JsString].value
+        val blood_group = requestJson.getFields("blood_group").head.asInstanceOf[JsString].value
         val admin_response = requestJson.getFields("admin_response").head.asInstanceOf[JsString].value
         val latitude = requestJson.getFields("latitude").head.asInstanceOf[JsString].value
         val longitude = requestJson.getFields("longitude").head.asInstanceOf[JsString].value
-        val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
+        val username = requestJson.getFields("username").head.asInstanceOf[JsString].value
 
-        val userId = authenticationController.addNewRecipientTable(blood_group,admin_response, latitude, longitude, userName)
+        val userId = authenticationController.addNewRecipientTable(blood_group, latitude, longitude, username)
         if (userId) {
 
-          if(admin_response== "OK"){
+          if(admin_response==true){
 //TO
             exchange.getResponseSender.send(JsObject(
               "status" -> JsString("ok"),
