@@ -90,10 +90,10 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
      dist
 
   }
-  def processComplete(userName: String, donationStatus:String, donorUserName:String, Units: Int, date:String, blood_group:String): Boolean ={
-    val query = "DROP TABLE " + userName+"_Recipient"
+  def processComplete(username: String, donationStatus:String, donorUserName:String, Units: Int, date:String, blood_group:String): Boolean ={
+    val query = "DROP TABLE " + username+"_Recipient"
     mysqlClient.getResultSet(query)
-    val insertQuery = "INSERT INTO process_complete (username, donationStatus, donorUserName, units , blood_group, date ) VALUES ('" + userName + "','" + donationStatus + "','" + donorUserName + "','"  + Units + "','" + blood_group  + "','"  + date  + "')"
+    val insertQuery = "INSERT INTO process_complete (username, donationStatus, donorUserName, units , blood_group, date ) VALUES ('" + username + "','" + donationStatus + "','" + donorUserName + "','"  + Units + "','" + blood_group  + "','"  + date  + "')"
     mysqlClient.getResultSet(insertQuery)
 
      true

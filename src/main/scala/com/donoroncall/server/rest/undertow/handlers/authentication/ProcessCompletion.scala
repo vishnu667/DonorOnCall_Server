@@ -23,7 +23,7 @@ class ProcessCompletion @Inject()(authenticationController: AuthenticationContro
         val username = requestJson.getFields("username").head.asInstanceOf[JsString].value
         val donationStatus = requestJson.getFields("donationStatus").head.asInstanceOf[JsString].value
         val donorUserName = requestJson.getFields("donorUserName").head.asInstanceOf[JsString].value
-        val noOfUnits = requestJson.getFields("noOfUnits").head.asInstanceOf[JsString].value
+        val noOfUnits = requestJson.getFields("noOfUnits").head.asInstanceOf[JsString].value.toInt
         val date = requestJson.getFields("date").head.asInstanceOf[JsString].value
         val blood_group = requestJson.getFields("date").head.asInstanceOf[JsString].value
 
