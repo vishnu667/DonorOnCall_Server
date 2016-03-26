@@ -20,7 +20,7 @@ WIP Code Changes required for the below to work
 ```
 CREATE TABLE users
   (
-     userid             BIGINT NOT NULL auto_increment,
+     userId             BIGINT NOT NULL auto_increment,
      username           VARCHAR(255) NOT NULL UNIQUE,
      password_hash      VARCHAR(128),
      email              VARCHAR(255) UNIQUE,
@@ -42,11 +42,11 @@ CREATE TABLE users
      request_count      INT DEFAULT 0,
      fulfilled_count    INT DEFAULT 0,
      donation_count     INT DEFAULT 0,
-     PRIMARY KEY (userid)
+     PRIMARY KEY (userId)
   );
 
-  CREATE TABLE recipients{
-  userid                BIGINT NOT NULL auto_increment,
+  CREATE TABLE recipients (
+  userId                BIGINT NOT NULL auto_increment,
   blood_group           VARCHAR(20),
   username              VARCHAR(255) NOT NULL UNIQUE,
   hospital_name         VARCHAR(255),
@@ -57,19 +57,19 @@ CREATE TABLE users
   phoneNo               VARCHAR(20),
   latitude              VARCHAR(255),
   longitude             VARCHAR(255),
-  PRIMARY KEY (userid)
-  };
+  PRIMARY KEY (userId)
+  );
 
-CREATE TABLE process_complete {
-  userid                BIGINT NOT NULL auto_increment,
+CREATE TABLE process_complete (
+  userId                BIGINT NOT NULL auto_increment,
   blood_group           VARCHAR(20),
   username              VARCHAR(255) NOT NULL UNIQUE,
   donationStatus        VARCHAR(20),
   donorUserName         VARCHAR(255),
   units                 INT DEFAULT 0,
-  blood_group           VARCHAR(20),
-  date                  VARCHAR(20)
-}
+  date                  VARCHAR(20),
+  PRIMARY KEY (userId)
+);
 
 
 ```
