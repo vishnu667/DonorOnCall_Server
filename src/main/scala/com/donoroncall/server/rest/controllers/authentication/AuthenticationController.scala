@@ -1,6 +1,7 @@
 package com.donoroncall.server.rest.controllers.authentication
 
 import java.security.MessageDigest
+import java.util
 
 import com.donoroncall.server.BootStrapServer.mysqlClient
 import com.google.inject.Inject
@@ -25,7 +26,7 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
 
     val query = "SELECT * from users where username='" + username + "'"
     val resultSet = mysqlClient.getResultSet(query)
-    if( resultSet.next() == null){
+    if( !resultSet.next()){
 
       if(password == confirmPassword){
         //TODO add more validations if user exists etc
@@ -49,8 +50,8 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
     val resultSet = mysqlClient.getResultSet(selectQuery)
     val createQuery = "CREATE TABLE "+ username+ "_Recipient { username VARCHAR(20), distance INTEGER } "
     mysqlClient.getResultSet(createQuery)
-    if(resultSet.next()!=null){
-    while ( resultSet.next() != null){
+    if(resultSet.next()){
+    while ( resultSet.next()){
       // keeping lat1, long1 to be of the recipient and lat2 long2 to be of each donor from the above resultset
       val donorName = resultSet.getString(1)
       val lat2 = resultSet.getDouble(2)
@@ -90,6 +91,22 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
      dist
 
   }
+
+  def getDonors(username:String):util.ArrayList[String]= {
+
+    val selectQuery = "SELECT username from " + username + "_Recipient"
+    val resultSet = mysqlClient.getResultSet(selectQuery)
+
+
+    val z = new util.ArrayList[String]
+
+
+    z.add(resultSet.getString(1): String)
+    z
+  }
+
+
+
   def processComplete(username: String, donationStatus:String, donorUserName:String, Units: Int, date:String, blood_group:String): Boolean ={
     val query = "DROP TABLE " + username+"_Recipient"
     mysqlClient.getResultSet(query)

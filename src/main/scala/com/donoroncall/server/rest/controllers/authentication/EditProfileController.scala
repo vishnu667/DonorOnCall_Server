@@ -78,7 +78,7 @@ class EditProfileController @Inject()(sessionHandler: SessionHandler) {
 
     val query = "UPDATE users SET name = '"+ name +"', dob = '"+dob+"', bloodGroup = '"+bloodGroup +"', phoneNo = '"+phoneNo +"', email = '"+email+"'  WHERE username='" + userName + "'"
     val resultSet = mysqlClient.getResultSet(query)
-    if(resultSet.next() !=null )  true
+    if(resultSet.next() )  true
     else  false
   }
 
