@@ -21,14 +21,15 @@ class GetDonors @Inject()(authenticationController: AuthenticationController) ex
 
         val username = requestJson.getFields("username").head.asInstanceOf[JsString].value
 
-        val z = authenticationController.getDonors(username).toArray
+        //val z = authenticationController.getDonors(username).toArray
+        val z = authenticationController.getDonors(username).toArray.asInstanceOf[Array[String]].map(JsString(_))toVector
 
 
 
         exchange.getResponseSender.send(JsObject(
           "status" -> JsString("Complete"),
           "message" -> JsString("This array contains the list of donor username sorted with distance to the recipient"),
-          "array" -> JsArray()
+          "array" -> JsArray(z)
         ).prettyPrint)
       }
 
