@@ -5,9 +5,10 @@ import com.google.inject.Inject
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
 import spray.json._
+
 /**
- * Created by Anmol on 28/3/16.
- */
+  * Created by Anmol on 28/3/16.
+  */
 class GetDonors @Inject()(authenticationController: AuthenticationController) extends HttpHandler {
   override def handleRequest(exchange: HttpServerExchange): Unit = {
     if (exchange.isInIoThread) {
@@ -22,7 +23,7 @@ class GetDonors @Inject()(authenticationController: AuthenticationController) ex
         val username = requestJson.getFields("username").head.asInstanceOf[JsString].value
 
         //val z = authenticationController.getDonors(username).toArray
-        val z = authenticationController.getDonors(username).toArray.asInstanceOf[Array[String]].map(JsString(_))toVector
+        val z = authenticationController.getDonors(username).toArray.asInstanceOf[Array[String]].map(JsString(_)).toVector
 
 
 

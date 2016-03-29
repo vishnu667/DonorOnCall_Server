@@ -11,7 +11,7 @@ import spray.json._
 /**
   * Created by vishnu on 20/1/16.
   */
-class LoginApiHandler @Inject()(authenticationController: AuthenticationController, sessionHandler: SessionHandler) extends HttpHandler {
+class LoginApiHandler @Inject()(authenticationController: AuthenticationController) extends HttpHandler {
   val LOG: Logger = LoggerFactory.getLogger(this.getClass)
 
   override def handleRequest(exchange: HttpServerExchange): Unit = {
@@ -25,7 +25,7 @@ class LoginApiHandler @Inject()(authenticationController: AuthenticationControll
 
         val requestJson = request.parseJson.asJsObject
 
-        val userName = requestJson.getFields("username").head.asInstanceOf[JsString].value
+        val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
         val password = requestJson.getFields("password").head.asInstanceOf[JsString].value
 
         val authToken = authenticationController.login(userName, password)
@@ -47,6 +47,7 @@ class LoginApiHandler @Inject()(authenticationController: AuthenticationControll
         }
       } catch {
         case e: Exception =>
+          e.printStackTrace()
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
             "message" -> JsString("Server Exception")

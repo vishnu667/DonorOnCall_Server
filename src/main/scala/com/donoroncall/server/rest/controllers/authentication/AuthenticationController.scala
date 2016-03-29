@@ -1,9 +1,8 @@
 package com.donoroncall.server.rest.controllers.authentication
 
-import java.security.MessageDigest
 import java.util
-
 import com.donoroncall.server.BootStrapServer.mysqlClient
+import com.donoroncall.server.utils.Security
 import com.google.inject.Inject
 
 /**
@@ -12,11 +11,11 @@ import com.google.inject.Inject
 class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
 
   def login(username: String, password: String): String = {
-    val query = "SELECT passwordHash,userId from users where username='" + username + "'"
+    val query = "SELECT password_hash,userId from users where username='" + username + "'"
     val resultSet = mysqlClient.getResultSet(query)
-    if (resultSet.next()) {
+    if ( resultSet!=null && resultSet.next()) {
       val passwordHash = resultSet.getString(1)
-      if (passwordHash == hash(password)) {
+      if (passwordHash == Security.hash(password)) {
         sessionHandler.createSessionTokenForUser(resultSet.getLong(2))
       } else ""
     } else ""
@@ -95,12 +94,5 @@ class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
     mysqlClient.getResultSet(insertQuery)
 
     true
-  }
-
-  def hash(text: String): String = {
-    val sha256: MessageDigest = MessageDigest.getInstance("SHA-256")
-    sha256.update(text.getBytes("UTF-8"))
-    val digest = sha256.digest()
-    String.format("%064x", new java.math.BigInteger(1, digest))
   }
 }

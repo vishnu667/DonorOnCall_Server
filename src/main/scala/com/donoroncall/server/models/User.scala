@@ -4,7 +4,7 @@ import java.sql.ResultSet
 import java.util.Date
 import java.text.{SimpleDateFormat, DateFormat}
 import com.donoroncall.server.BootStrapServer.mysqlClient
-import com.donoroncall.server.utils.SqlUtils
+import com.donoroncall.server.utils.{Security, SqlUtils}
 import org.slf4j.{Logger, LoggerFactory}
 import spray.json.{JsNumber, JsObject, JsString}
 
@@ -43,7 +43,7 @@ class User(userId: Long,
 object User {
   private val LOG: Logger = LoggerFactory.getLogger(this.getClass)
 
-  private val dateFormat: DateFormat = new SimpleDateFormat("yyyy-mm-dd")
+  private val dateFormat: DateFormat = new SimpleDateFormat("dd-mm-yyyy")
 
   private def dateToString(date: Date): String = dateFormat.format(date)
 
@@ -98,7 +98,7 @@ object User {
       if (!sanityCheck.next()) {
 
         if (password == confirmPassword) {
-          val passwordHash = ""
+          val passwordHash = Security.hash(password)
           val userId = SqlUtils.insert("users", Map(
             "userName" -> userName,
             "password_hash" -> passwordHash,
@@ -149,8 +149,8 @@ object User {
     val health_information = resultSet.getString("health_information")
 
     val dob = resultSet.getString("dob")
-    val latitude = resultSet.getString("latitude")
-    val longitude = resultSet.getString("longitude")
+    val latitude = resultSet.getDouble("latitude")
+    val longitude = resultSet.getDouble("longitude")
 
     val request_count = resultSet.getInt("request_count")
     val fulfilled_count = resultSet.getInt("fulfilled_count")
@@ -176,6 +176,28 @@ object User {
       lon = longitude.toDouble,
       phone = phoneNo
     )
+  }
+
+  def main(args: Array[String]) {
+    import spray.json._
+    val json = """{
+                 |                      "name": "vishnu",
+                 |                      "bloodGroup": "0+ve",
+                 |                      "latitude": 0.01,
+                 |                      "email": "vishnua2ABC",
+                 |                      "dob": "08-10-1991",
+                 |                      "confirmPassword": "qwe",
+                 |                      "longitude": 0.02,
+                 |                      "phoneNo": "12123",
+                 |                      "userName": "vishnua2ABC",
+                 |                      "password": "qwe"
+                 |                    }""".stripMargin.parseJson.asJsObject
+
+    val a = registerUser(json)
+
+    println(a._2.mkString("\n"))
+    println(a._1.toJson.prettyPrint)
+
   }
 
 }
