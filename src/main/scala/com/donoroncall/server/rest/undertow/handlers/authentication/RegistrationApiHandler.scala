@@ -1,5 +1,6 @@
 package com.donoroncall.server.rest.undertow.handlers.authentication
 
+import com.donoroncall.server.models.User
 import com.donoroncall.server.rest.controllers.authentication.AuthenticationController
 import com.google.inject.Inject
 import io.undertow.server.{HttpHandler, HttpServerExchange}
@@ -20,32 +21,20 @@ class RegistrationApiHandler @Inject()(authenticationController: AuthenticationC
 
         val requestJson = request.parseJson.asJsObject
 
-        val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
-        val name = requestJson.getFields("password").head.asInstanceOf[JsString].value
-        val dob = requestJson.getFields("email").head.asInstanceOf[JsString].value
-        val bloodGroup = requestJson.getFields("bloodGroup").head.asInstanceOf[JsString].value
-        val password = requestJson.getFields("password").head.asInstanceOf[JsString].value
-        val confirmPassword = requestJson.getFields("confirmPassword").head.asInstanceOf[JsString].value
-        val latitude = requestJson.getFields("latitude").head.asInstanceOf[JsString].value
-        val longitude = requestJson.getFields("longitude").head.asInstanceOf[JsString].value
-        val phoneNo = requestJson.getFields("phoneNo").head.asInstanceOf[JsString].value
-        val email = requestJson.getFields("email").head.asInstanceOf[JsString].value
+        val registrationTuple = User.registerUser(requestJson)
 
-
-        val userId = authenticationController.addNewUser(userName, password, name, bloodGroup, dob, confirmPassword, latitude, longitude, phoneNo, email)
-
-        if (userId) {
+        if (registrationTuple._1 != null) {
           //TODO add logic for Successful Registration
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("ok"),
             "message" -> JsString("Registration successful")
           ).prettyPrint)
-
         } else {
           //TODO add logic for Failed Registration
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
-            "message" -> JsString("Registration Failed")
+            "message" -> JsString("Registration Failed"),
+            "comments" -> JsArray(registrationTuple._2.map(JsString(_)).toVector)
           ).prettyPrint)
         }
 

@@ -1,9 +1,11 @@
 package com.donoroncall.server.connectors;
 
+import com.donoroncall.server.utils.SqlUtils;
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import scala.AnyVal;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,7 +33,7 @@ public class MysqlClient {
         this.connection = DriverManager.getConnection(dbc);
     }
 
-    private Connection getConnection() {
+    public Connection getConnection() {
         try {
             if (connection.isClosed()) {
                 connection = DriverManager.getConnection(dbc);
