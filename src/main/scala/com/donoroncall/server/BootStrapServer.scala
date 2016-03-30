@@ -11,7 +11,7 @@ import com.donoroncall.server.utils.InitializationUtils.getConfiguration
 /**
   * Created by vishnu on 20/1/16.
   */
-object BootStrapServer extends App {
+object BootStrapServer {
   println("Server Initializing")
 
   private val LOG: Logger = LoggerFactory.getLogger(BootStrapServer.getClass)
@@ -22,7 +22,9 @@ object BootStrapServer extends App {
 
   val serverInterface = injector.getInstance(classOf[ServerInterface])
 
-  serverInterface.startServer
-
   val mysqlClient = injector.getInstance(classOf[MysqlClient])
+
+  def main(args: Array[String]) {
+    serverInterface.startServer
+  }
 }

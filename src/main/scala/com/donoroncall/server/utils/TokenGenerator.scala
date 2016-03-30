@@ -28,5 +28,6 @@ object TokenGenerator {
 
   def generateSHAToken(tokenPrefix: String): String = sha(tokenPrefix + System.nanoTime() + generateToken(TOKEN_LENGTH))
 
+
 }
 
