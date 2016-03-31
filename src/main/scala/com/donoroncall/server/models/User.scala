@@ -71,7 +71,6 @@ object User {
                       "latitude": 0.01,
                       "email": "vishnua2ABC",
                       "dob": "08-10-1991",
-                      "confirmPassword": "qwe",
                       "longitude": 0.02,
                       "phoneNo": "12123",
                       "userName": "vishnua2ABC",
@@ -88,7 +87,6 @@ object User {
       val dob = requestJson.getFields("dob").head.asInstanceOf[JsString].value
       val bloodGroup = requestJson.getFields("bloodGroup").head.asInstanceOf[JsString].value
       val password = requestJson.getFields("password").head.asInstanceOf[JsString].value
-      val confirmPassword = requestJson.getFields("confirmPassword").head.asInstanceOf[JsString].value
       val latitude = requestJson.getFields("latitude").head.asInstanceOf[JsNumber].value.toDouble
       val longitude = requestJson.getFields("longitude").head.asInstanceOf[JsNumber].value.toDouble
       val phoneNo = requestJson.getFields("phoneNo").head.asInstanceOf[JsString].value
@@ -96,8 +94,6 @@ object User {
 
       val sanityCheck = mysqlClient.getResultSet("SELECT username,email from users where username='" + userName + "' || email='" + email + "'")
       if (!sanityCheck.next()) {
-
-        if (password == confirmPassword) {
           val passwordHash = Security.hash(password)
           val userId = SqlUtils.insert("users", Map(
             "userName" -> userName,
@@ -112,9 +108,6 @@ object User {
           ))
           user = getUser(userId)
           messages += "User Created Sussfully with Id " + userId
-        } else {
-          messages += " Passwords Do not Match"
-        }
       } else {
         if (sanityCheck.getString(1).equals(userName)) messages += "userName : " + userName + " Exists !"
         if (sanityCheck.getString(2).equals(email)) messages += "email " + email + " Exists !"
