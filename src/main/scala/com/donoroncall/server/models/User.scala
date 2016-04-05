@@ -177,27 +177,4 @@ object User {
       phone = phoneNo
     )
   }
-
-  def main(args: Array[String]) {
-    import spray.json._
-    val json = """{
-                 |                      "name": "vishnu",
-                 |                      "bloodGroup": "0+ve",
-                 |                      "latitude": 0.01,
-                 |                      "email": "vishnua2ABC",
-                 |                      "dob": "08-10-1991",
-                 |                      "confirmPassword": "qwe",
-                 |                      "longitude": 0.02,
-                 |                      "phoneNo": "12123",
-                 |                      "userName": "vishnua2ABC",
-                 |                      "password": "qwe"
-                 |                    }""".stripMargin.parseJson.asJsObject
-
-    val a = registerUser(json)
-
-    println(a._2.mkString("\n"))
-    println(a._1.toJson.prettyPrint)
-
-  }
-
 }

@@ -138,16 +138,43 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.3</version>
                 <executions>
                     <execution>
-                        <phase>compile</phase>
                         <goals>
-                            <goal>compile</goal>
+                            <goal>assemble</goal>
                         </goals>
+                        <phase>package</phase>
                     </execution>
                 </executions>
+                <configuration>
+                    <repositoryName>lib</repositoryName>
+                    <repositoryLayout>flat</repositoryLayout>
+                    <assembleDirectory>binaries</assembleDirectory>
+                    <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+                    <configurationDirectory>conf</configurationDirectory>
+                    <configurationSourceDirectory>src/main/resources/</configurationSourceDirectory>
+                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                    <binFileExtensions>
+                        <unix>.sh</unix>
+                    </binFileExtensions>
+                    <platforms>
+                        <platform>unix</platform>
+                        <platform>windows</platform>
+                    </platforms>
+                    <programs>
+                        <program>
+                            <mainClass>com.donoroncall.server.BootStrapServer</mainClass>
+                            <name>api-server</name>
+                        </program>
+                    </programs>
+                    <extraJvmArguments>-XX:+DisableExplicitGC -XX:+AggressiveOpts
+                        -XX:BiasedLockingStartupDelay=0 -XX:MaxDirectMemorySize=512M
+                        -XX:+UseConcMarkSweepGC -XX:+UseParNewGC
+                    </extraJvmArguments>
+                </configuration>
             </plugin>
         </plugins>
     </build>
