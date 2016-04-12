@@ -46,12 +46,20 @@ class LoginApiHandler @Inject()(authenticationController: AuthenticationControll
           ).prettyPrint)
         }
       } catch {
-        case e: Exception =>
+        case u: UnsupportedOperationException => {
+          u.printStackTrace()
+          exchange.getResponseSender.send(JsObject(
+            "status" -> JsString("failed"),
+            "message" -> JsString("Invalid Request Format")
+          ).prettyPrint)
+        }
+        case e: Exception => {
           e.printStackTrace()
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
             "message" -> JsString("Server Exception")
           ).prettyPrint)
+        }
       }
     }
 

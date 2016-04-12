@@ -94,26 +94,30 @@ object User {
 
       val sanityCheck = mysqlClient.getResultSet("SELECT username,email from users where username='" + userName + "' || email='" + email + "'")
       if (!sanityCheck.next()) {
-          val passwordHash = Security.hash(password)
-          val userId = SqlUtils.insert("users", Map(
-            "userName" -> userName,
-            "password_hash" -> passwordHash,
-            "name" -> name,
-            "blood_group" -> bloodGroup,
-            "dob" -> dob,
-            "latitude" -> latitude,
-            "longitude" -> longitude,
-            "phoneNo" -> phoneNo,
-            "email" -> email
-          ))
-          user = getUser(userId)
-          messages += "User Created Sussfully with Id " + userId
+        val passwordHash = Security.hash(password)
+        val userId = SqlUtils.insert("users", Map(
+          "userName" -> userName,
+          "password_hash" -> passwordHash,
+          "name" -> name,
+          "blood_group" -> bloodGroup,
+          "dob" -> dob,
+          "latitude" -> latitude,
+          "longitude" -> longitude,
+          "phoneNo" -> phoneNo,
+          "email" -> email
+        ))
+        user = getUser(userId)
+        messages += "User Created Sussfully with Id " + userId
       } else {
         if (sanityCheck.getString(1).equals(userName)) messages += "userName : " + userName + " Exists !"
         if (sanityCheck.getString(2).equals(email)) messages += "email " + email + " Exists !"
       }
 
     } catch {
+      case u: UnsupportedOperationException => {
+        messages += "Invalid Request Json"
+        LOG.debug("Error While Creating user", u)
+      }
       case e: Exception => {
         messages += e.getLocalizedMessage
         LOG.debug("Error While Creating user", e)
