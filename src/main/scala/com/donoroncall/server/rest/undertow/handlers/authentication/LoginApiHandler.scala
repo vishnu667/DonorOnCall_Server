@@ -41,7 +41,7 @@ class LoginApiHandler @Inject()(authenticationController: AuthenticationControll
           //TODO add logic for Login failure
           exchange.setStatusCode(401)
           exchange.getResponseSender.send(JsObject(
-            "error" -> JsString("Invalid userName and password")
+            "error" -> JsString("Wrong userName and password combination")
           ).prettyPrint)
         }
       } catch {
