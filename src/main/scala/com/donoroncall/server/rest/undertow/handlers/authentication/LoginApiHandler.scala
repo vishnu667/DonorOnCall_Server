@@ -24,7 +24,7 @@ class LoginApiHandler @Inject()(authenticationController: AuthenticationControll
         val request = new String(IOUtils.toByteArray(exchange.getInputStream))
 
         val requestJson = request.parseJson.asJsObject
-
+        println(requestJson)
         val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
         val password = requestJson.getFields("password").head.asInstanceOf[JsString].value
 
@@ -33,21 +33,21 @@ class LoginApiHandler @Inject()(authenticationController: AuthenticationControll
         if (authToken != "") {
           exchange.getResponseHeaders.add(new HttpString("auth-token"), authToken)
           exchange.getResponseSender.send(JsObject(
-            "status" -> JsString("ok"),
             "token" -> JsString(authToken),
-            "message" -> JsString("Login successful")
+            "userName"->JsString(userName)
           ).prettyPrint)
 
         } else {
           //TODO add logic for Login failure
+          exchange.setStatusCode(401)
           exchange.getResponseSender.send(JsObject(
-            "status" -> JsString("failed"),
-            "message" -> JsString("Invalid userName and password")
+            "error" -> JsString("Invalid userName and password")
           ).prettyPrint)
         }
       } catch {
         case u: UnsupportedOperationException => {
           u.printStackTrace()
+          exchange.setStatusCode(400)
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
             "message" -> JsString("Invalid Request Format")
@@ -55,6 +55,7 @@ class LoginApiHandler @Inject()(authenticationController: AuthenticationControll
         }
         case e: Exception => {
           e.printStackTrace()
+          exchange.setStatusCode(400)
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
             "message" -> JsString("Server Exception")
