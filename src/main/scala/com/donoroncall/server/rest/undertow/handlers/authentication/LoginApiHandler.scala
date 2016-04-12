@@ -24,7 +24,6 @@ class LoginApiHandler @Inject()(authenticationController: AuthenticationControll
         val request = new String(IOUtils.toByteArray(exchange.getInputStream))
 
         val requestJson = request.parseJson.asJsObject
-        println(requestJson)
         val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
         val password = requestJson.getFields("password").head.asInstanceOf[JsString].value
 
