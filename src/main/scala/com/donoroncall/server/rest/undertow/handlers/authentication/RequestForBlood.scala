@@ -1,6 +1,7 @@
 package com.donoroncall.server.rest.undertow.handlers.authentication
 
 import com.donoroncall.server.rest.controllers.authentication.AuthenticationController
+import com.donoroncall.server.utils.SqlUtils
 import com.google.inject.Inject
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
@@ -30,23 +31,34 @@ class RequestForBlood @Inject()(authenticationController: AuthenticationControll
         val phoneNo = requestJson.getFields("phoneNo").head.asInstanceOf[JsString].value
         val latitude = requestJson.getFields("latitude").head.asInstanceOf[JsString].value
         val longitude = requestJson.getFields("longitude").head.asInstanceOf[JsString].value
+        //blood_group, username, hospitalName, patientName,purpose, request_count, howSoon, phoneNo, latitude, longitude
+        val rquestId  = SqlUtils.insert("recipients", Map(
+          "blood_group" -> blood_group,
+          "username" -> username,
+          "hospital_name" -> hospital_name,
+          "patient_name" -> patient_Name,
+          "purpose" -> purpose,
+          "units" -> units,
+          "how_soon" -> how_Soon,
+          "latitude" -> latitude,
+          "longitude" -> longitude
+        ))
 
-        val userId = authenticationController.addNewRecipient(blood_group, username, hospital_name, patient_Name, purpose, units, how_Soon,phoneNo, latitude, longitude)
+        // val userId = authenticationController.addNewRecipient(blood_group, username, hospital_name, patient_Name, purpose, units, how_Soon,phoneNo, latitude, longitude)
 
-        if (userId == "") {
 
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("ok"),
             "message" -> JsString("New Recipient Added, waiting for Admin approval.")
           ).prettyPrint)
 
-        } else {
-          //TODO add logic for Failed Registration
+        // Need to check the logic
+        /*  //TODO add logic for Failed Registration
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
             "message" -> JsString("Request for blood Failed")
-          ).prettyPrint)
-        }
+          ).prettyPrint)*/
+
 
 
       } catch {
