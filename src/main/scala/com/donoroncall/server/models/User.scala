@@ -87,8 +87,6 @@ object User {
       val dob = requestJson.getFields("dob").head.asInstanceOf[JsString].value
       val bloodGroup = requestJson.getFields("bloodGroup").head.asInstanceOf[JsString].value
       val password = requestJson.getFields("password").head.asInstanceOf[JsString].value
-      val latitude = requestJson.getFields("latitude").head.asInstanceOf[JsNumber].value.toDouble
-      val longitude = requestJson.getFields("longitude").head.asInstanceOf[JsNumber].value.toDouble
       val phoneNo = requestJson.getFields("phoneNo").head.asInstanceOf[JsString].value
       val email = requestJson.getFields("email").head.asInstanceOf[JsString].value
 
@@ -101,8 +99,6 @@ object User {
             "name" -> name,
             "blood_group" -> bloodGroup,
             "dob" -> dob,
-            "latitude" -> latitude,
-            "longitude" -> longitude,
             "phoneNo" -> phoneNo,
             "email" -> email
           ))
