@@ -11,7 +11,7 @@ import com.google.inject.Inject
 class AuthenticationController @Inject()(sessionHandler: SessionHandler) {
 
   def login(username: String, password: String): String = {
-    val query = "SELECT password_hash,userId from users where username='" + username + "'"
+    val query = "SELECT password_hash,userId from users where username='" + username + "' OR email='"+username+"'"
     val resultSet = mysqlClient.getResultSet(query)
     if ( resultSet!=null && resultSet.next()) {
       val passwordHash = resultSet.getString(1)

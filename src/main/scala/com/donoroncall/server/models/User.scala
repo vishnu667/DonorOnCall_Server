@@ -82,7 +82,6 @@ object User {
     var user: User = null
     val messages: scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer.empty[String]
     try {
-      val userName = requestJson.getFields("userName").head.asInstanceOf[JsString].value
       val name = requestJson.getFields("name").head.asInstanceOf[JsString].value
       val dob = requestJson.getFields("dob").head.asInstanceOf[JsString].value
       val bloodGroup = requestJson.getFields("bloodGroup").head.asInstanceOf[JsString].value
@@ -91,6 +90,11 @@ object User {
       val longitude = requestJson.getFields("longitude").head.asInstanceOf[JsNumber].value.toDouble
       val phoneNo = requestJson.getFields("phoneNo").head.asInstanceOf[JsString].value
       val email = requestJson.getFields("email").head.asInstanceOf[JsString].value
+
+      val userName = if (requestJson.getFields("userName").nonEmpty)
+        requestJson.getFields("userName").head.asInstanceOf[JsString].value
+      else
+        email
 
       val sanityCheck = mysqlClient.getResultSet("SELECT username,email from users where username='" + userName + "' || email='" + email + "'")
       if (!sanityCheck.next()) {
