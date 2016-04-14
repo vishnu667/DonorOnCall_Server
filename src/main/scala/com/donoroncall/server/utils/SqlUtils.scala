@@ -37,9 +37,11 @@ object SqlUtils {
       try {
         LOG.debug("insert Query : " + preparedStatement.toString)
         preparedStatement.executeUpdate()
-        val gkSet = preparedStatement.getGeneratedKeys
-        if (gkSet.next()) {
-          generatedId = gkSet.getLong(1)
+        if (returnColumns.nonEmpty) {
+          val gkSet = preparedStatement.getGeneratedKeys
+          if (gkSet.next()) {
+            generatedId = gkSet.getLong(1)
+          }
         }
       }
       finally preparedStatement.close()
