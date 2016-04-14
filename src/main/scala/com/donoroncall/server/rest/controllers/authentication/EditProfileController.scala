@@ -12,12 +12,9 @@ import com.google.inject.Inject
 class EditProfileController @Inject()(sessionHandler: SessionHandler) {
 
 
-
-
   def getBloodGroup(username: String): String = {
 
     val query = "SELECT blood_group from users where username='" + username + "'"
-
 
     val resultSet = mysqlClient.getResultSet(query)
     val blood_group = resultSet.getString(1)
@@ -61,8 +58,6 @@ class EditProfileController @Inject()(sessionHandler: SessionHandler) {
 
   }
 
-
-
   def getEmail(userName: String): String = {
 
     val query = "SELECT email from users where username= '" + userName + "'"
@@ -82,10 +77,6 @@ class EditProfileController @Inject()(sessionHandler: SessionHandler) {
     if(resultSet.next() )  true
     else  false
   }
-
-
-
-
 
   def hash(text: String): String = {
     val sha256: MessageDigest = MessageDigest.getInstance("SHA-256")

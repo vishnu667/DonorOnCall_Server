@@ -21,11 +21,10 @@ class User(userId: Long,
            dob: Date,
            bloodGroup: String,
            passwordHash: String,
-           lat: Double,
-           lon: Double,
+           lat: Double = 0.0,
+           lon: Double = 0.0,
            phone: String
           ) {
-  private val LOG: Logger = LoggerFactory.getLogger(this.getClass)
 
   def toJson: JsObject = JsObject(
     "email" -> JsString(email),
@@ -137,26 +136,18 @@ object User {
     val email = resultSet.getString("email")
     val phoneNo = resultSet.getString("phoneNo")
 
-    val address_1 = resultSet.getString("address_1")
-    val address_2 = resultSet.getString("address_2")
-    val locality = resultSet.getString("locality")
     val city = resultSet.getString("city")
     val blood_group = resultSet.getString("blood_group")
-    val account_status = resultSet.getString("account_status")
-    val health_information = resultSet.getString("health_information")
 
     val dob = resultSet.getString("dob")
     val latitude = resultSet.getDouble("latitude")
     val longitude = resultSet.getDouble("longitude")
 
     val request_count = resultSet.getInt("request_count")
-    val fulfilled_count = resultSet.getInt("fulfilled_count")
     val donation_count = resultSet.getInt("donation_count")
+
     val zipCode = resultSet.getInt("zipCode")
 
-    val is_donor = resultSet.getBoolean("is_donor")
-    val is_recipient = resultSet.getBoolean("is_recipient")
-    val is_admin_approved = resultSet.getBoolean("is_admin_approved")
 
     val tuserId = resultSet.getLong("userId")
 
