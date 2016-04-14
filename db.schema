@@ -56,6 +56,7 @@ CREATE TABLE users
   purpose               VARCHAR(255),
   request_count         INT DEFAULT 0,
   how_soon              INT DEFAULT 0,
+  units                 INT DEFAULT 0,
   phoneNo               VARCHAR(20),
   latitude              VARCHAR(255),
   longitude             VARCHAR(255),
