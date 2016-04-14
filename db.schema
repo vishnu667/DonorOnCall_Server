@@ -3,20 +3,6 @@ create database donor_on_call;
 
 use donor_on_call;
 
-CREATE TABLE users (
-userId BIGINT NOT NULL AUTO_INCREMENT,
-userName varchar(255) NOT NULL UNIQUE,
-passwordHash varchar(128),
-email varchar(255) UNIQUE,
-PRIMARY KEY (userId)
-);
-
-
-
-
-
-WIP Code Changes required for the below to work
-
 ```
 CREATE TABLE users
   (

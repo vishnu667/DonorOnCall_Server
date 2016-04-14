@@ -12,13 +12,13 @@ class BloodRequest(
                     hospitalAddress: String,
                     patientName: String,
                     requiredUnits: Int,
-                    promisedUnits: Int,
+                    promisedUnits: Int=0,
                     fulfilledUnits: Int = 0,
                     requiredWithin: Long,
                     bloodGroup: String,
                     requestId: Long = 0,
                     purpose: String = "",
-                    status: Int = 0, // 0 - not approved 1 approved -1 rejected
+                    status: Int = 0, //-1 rejected, 0 not approved, 1 approved, 2 Complete
                     comment: String = "",
                     lat: Double = 0.0,
                     lon: Double = 0.0
