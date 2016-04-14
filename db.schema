@@ -75,4 +75,12 @@ CREATE TABLE process_complete (
 );
 
 
+CREATE TABLE registered_devices(
+ deviceId          VARCHAR(255),
+ userId            BIGINT,
+ PRIMARY KEY (deviceId),
+ FOREIGN KEY (userId) REFERENCES users(userId)
+);
+
+
 ```
