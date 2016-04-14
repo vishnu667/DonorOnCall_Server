@@ -47,7 +47,7 @@ CREATE TABLE users
      PRIMARY KEY (userId)
   );
 
- CREATE TABLE bloodrequest (
+ CREATE TABLE blood_request (
   Id  BIGINT NOT NULL auto_increment,
   contact_number    VARCHAR(20),
   hospital_name     VARCHAR(255),
@@ -65,16 +65,12 @@ CREATE TABLE users
   lon               DOUBLE
  );
 
-CREATE TABLE process_complete (
-  userId                BIGINT NOT NULL auto_increment,
-  blood_group           VARCHAR(20),
-  username              VARCHAR(255) NOT NULL UNIQUE,
-  donationStatus        VARCHAR(20),
-  donorUserName         VARCHAR(255),
-  units                 INT DEFAULT 0,
-  date                  VARCHAR(20),
-  PRIMARY KEY (userId)
-);
+CREATE TABLE donation_record(
+id           BIGINT NOT NULL auto_increment,
+user_id      BIGINT NOT NULL,
+request_id   BIGINT NOT NULL,
+status       INT
+)
 
 
 CREATE TABLE registered_devices(
