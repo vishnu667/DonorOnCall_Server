@@ -47,21 +47,23 @@ CREATE TABLE users
      PRIMARY KEY (userId)
   );
 
-  CREATE TABLE recipients (
-  userId                BIGINT NOT NULL auto_increment,
-  blood_group           VARCHAR(20),
-  username              VARCHAR(255) NOT NULL UNIQUE,
-  hospital_name         VARCHAR(255),
-  patient_name          VARCHAR(255),
-  purpose               VARCHAR(255),
-  request_count         INT DEFAULT 0,
-  how_soon              INT DEFAULT 0,
-  units                 INT DEFAULT 0,
-  phoneNo               VARCHAR(20),
-  latitude              VARCHAR(255),
-  longitude             VARCHAR(255),
-  PRIMARY KEY (userId)
-  );
+ CREATE TABLE bloodrequest (
+  Id  BIGINT NOT NULL auto_increment,
+  contact_number    VARCHAR(20),
+  hospital_name     VARCHAR(255),
+  hospital_address  VARCHAR(255),
+  patient_name      VARCHAR(255),
+  required_units    INT,
+  promised_units    INT,
+  fulfilled_units   INT,
+  required_within   INT,
+  blood_group       VARCHAR(20),
+  purpose           VARCHAR(255),
+  status            INT,
+  comment           VARCHAR(255),
+  lat               DOUBLE,
+  lon               DOUBLE
+ );
 
 CREATE TABLE process_complete (
   userId                BIGINT NOT NULL auto_increment,
