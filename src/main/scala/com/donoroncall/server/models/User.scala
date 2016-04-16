@@ -13,17 +13,18 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Created by vishnu on 30/1/16.
   */
-class User(userId: Long,
-           email: String,
-           userName: String,
-           name: String,
-           zipCode: Int,
-           dob: Date,
-           bloodGroup: String,
-           passwordHash: String,
-           lat: Double = 0.0,
-           lon: Double = 0.0,
-           phone: String
+class User(
+            val userId: Long,
+            val email: String,
+            val userName: String,
+            val name: String,
+            val zipCode: Int,
+            val dob: Date,
+            val bloodGroup: String,
+            passwordHash: String,
+            val lat: Double = 0.0,
+            val lon: Double = 0.0,
+            val phone: String
           ) {
 
   def toJson: JsObject = JsObject(
@@ -48,17 +49,15 @@ object User {
 
   private def stringToDate(date: String): Date = dateFormat.parse(date)
 
-  def getUser(userId: Long): User = {
-    try {
-      val resultSet = mysqlClient.getResultSet("SELECT * from users where userId=" + userId)
+  def getUser(userId: Long): User = try {
+    val resultSet = mysqlClient.getResultSet("SELECT * from users where userId=" + userId)
 
-      if (resultSet.next()) {
-        getUserFromResultSet(resultSet)
-      } else null
-    } catch {
-      case e: Exception => LOG.debug("exception in Getting User " + userId, e)
-        null
-    }
+    if (resultSet.next()) {
+      getUserFromResultSet(resultSet)
+    } else null
+  } catch {
+    case e: Exception => LOG.debug("exception in Getting User " + userId, e)
+      null
   }
 
   /**
@@ -106,7 +105,7 @@ object User {
           "email" -> email
         ))
         user = getUser(userId)
-        messages += "User Created Sussfully with Id " + userId
+        messages += "User Created Successfully with Id " + userId
       } else {
         if (sanityCheck.getString(1).equals(userName)) messages += "userName : " + userName + " Exists !"
         if (sanityCheck.getString(2).equals(email)) messages += "email " + email + " Exists !"

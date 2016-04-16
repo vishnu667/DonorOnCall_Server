@@ -11,9 +11,14 @@ url: /register
 ```
 #Request:
 {
-    "userName":"demo2",
-    "password":"demo",
-    "email":"demo2@demo.com"
+  "userName": "vishnu2abc",
+  "email": "vishnu@ABC.com",
+  "name": "vishnu",
+  "bloodGroup": "0+ve",
+  "dob": "24-03-1985",
+  "password": "qwe",
+  "confirmPassword": "qwe",
+  "phoneNo": "12123"
 }
 
 #Response:
@@ -58,6 +63,92 @@ url: /api/user/get
   "user": {
     "email": "demo2@demo.com",
     "userName": "demo2"
+  }
+}
+```
+
+#### Register Blood Request Api
+
+url: /api/bloodRequest/register
+
+```
+# Register
+
+{
+  "token": "8acbbd80e7ce457e8cd5b816fa01302b0fe60c4f276acf349aa39021bf4e98a2",
+  "data": {
+    "contactNumber": "13245645",
+    "hospitalName": "hospital name",
+    "hospitalAddress": " hospital address1, Hospital address 2",
+    "patientName": "Patient Name",
+    "bloodGroup": "0+ve",
+    "purpose": "reason for blood Request will be displayed to the donors",
+    "comment": "",
+    "requiredUnits": 3,
+    "lat": 0.0,
+    "lon": 0.0,
+    "requiredWithin": 1462022163000
+  }
+}
+
+# Response
+
+{
+  "status": "ok",
+  "bloodRequest": {
+    "bloodGroup": "0+ve",
+    "patientName": "Patient Name",
+    "requiredWithin": 1462022163000,
+    "purpose": "reason for blood Request will be displayed to the donors",
+    "status": 0,
+    "comment": "",
+    "createdUserId": 1,
+    "contactNumber": "13245645",
+    "lon": 0.0,
+    "requestId": 3,
+    "hospitalAddress": " hospital address1, Hospital address 2",
+    "requiredUnits": 3,
+    "hospitalName": "hospital name",
+    "fulfilledUnits": 0,
+    "lat": 0.0,
+    "promisedUnits": 0
+  },
+  "messages": ["Blood Request Created Successfully with Id 3"]
+}
+
+```
+
+#### Get Blood Request Object Api
+
+url: /api/bloodRequest/get
+
+```
+# Request 
+{
+"token": "0e74847772ad2abe9836c66fc2688a826288440a12a5d5d8bf91edb3eded2abe",
+  "requestId":1
+}
+
+# Response
+{
+  "status": "ok",
+  "bloodRequest": {
+    "bloodGroup": "0+ve",
+    "patientName": "Patient Name",
+    "requiredWithin": 1462022163000,
+    "purpose": "reason for blood Request will be displayed to the donors",
+    "status": 0,
+    "comment": "",
+    "createdUserId": 1,
+    "contactNumber": "13245645",
+    "lon": 0.0,
+    "requestId": 1,
+    "hospitalAddress": " hospital address1, Hospital address 2",
+    "requiredUnits": 3,
+    "hospitalName": "hospital name",
+    "fulfilledUnits": 0,
+    "lat": 0.0,
+    "promisedUnits": 0
   }
 }
 ```

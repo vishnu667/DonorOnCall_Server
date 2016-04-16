@@ -1,9 +1,9 @@
 
-create database donor_on_call;
-
-use donor_on_call;
-
 ```
+CREATE DATABASE donor_on_call;
+
+USE donor_on_call;
+
 CREATE TABLE users
   (
      userId             BIGINT NOT NULL auto_increment,
@@ -11,7 +11,7 @@ CREATE TABLE users
      password_hash      VARCHAR(128),
      name               VARCHAR(255),
      email              VARCHAR(255) UNIQUE,
-     phoneNo            VARCHAR(20),
+     phoneno            VARCHAR(20),
      dob                VARCHAR(20),
      address_1          VARCHAR(255),
      address_2          VARCHAR(255),
@@ -26,45 +26,50 @@ CREATE TABLE users
      is_recipient       BOOLEAN NOT NULL DEFAULT 0,
      is_admin_approved  BOOLEAN NOT NULL DEFAULT 0,
      join_date          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-     zipCode      INT DEFAULT 0,
+     zipcode            INT DEFAULT 0,
      request_count      INT DEFAULT 0,
      fulfilled_count    INT DEFAULT 0,
      donation_count     INT DEFAULT 0,
      PRIMARY KEY (userId)
   );
 
- CREATE TABLE blood_request (
-  Id  BIGINT NOT NULL auto_increment,
-  contact_number    VARCHAR(20),
-  hospital_name     VARCHAR(255),
-  hospital_address  VARCHAR(255),
-  patient_name      VARCHAR(255),
-  required_units    INT,
-  promised_units    INT,
-  fulfilled_units   INT,
-  required_within   INT,
-  blood_group       VARCHAR(20),
-  purpose           VARCHAR(255),
-  status            INT,
-  comment           VARCHAR(255),
-  lat               DOUBLE,
-  lon               DOUBLE
- );
+CREATE TABLE blood_request
+  (
+     requestId        BIGINT NOT NULL auto_increment,
+     userId    BIGINT NOT NULL,
+     contact_number   VARCHAR(20),
+     hospital_name    VARCHAR(255),
+     hospital_address VARCHAR(255),
+     patient_name     VARCHAR(255),
+     required_units   INT,
+     promised_units   INT,
+     fulfilled_units  INT,
+     required_within  BIGINT,
+     blood_group      VARCHAR(20),
+     purpose          VARCHAR(255),
+     status           INT,
+     comment          VARCHAR(255),
+     lat              DOUBLE,
+     lon              DOUBLE,
+     PRIMARY KEY (requestId)
+  );
 
-CREATE TABLE donation_record(
-id           BIGINT NOT NULL auto_increment,
-user_id      BIGINT NOT NULL,
-request_id   BIGINT NOT NULL,
-status       INT
-)
+CREATE TABLE donation_record
+  (
+     donationId BIGINT NOT NULL auto_increment,
+     user_id    BIGINT NOT NULL,
+     request_id BIGINT NOT NULL,
+     status     INT,
+     PRIMARY KEY (donationId)
+  );
 
-
-CREATE TABLE registered_devices(
- deviceId          VARCHAR(255),
- userId            BIGINT,
- PRIMARY KEY (deviceId),
- FOREIGN KEY (userId) REFERENCES users(userId)
-);
+CREATE TABLE registered_devices
+  (
+     deviceId VARCHAR(255),
+     userId   BIGINT,
+     PRIMARY KEY (deviceId),
+     FOREIGN KEY (userId) REFERENCES users(userId)
+  );
 
 
 ```

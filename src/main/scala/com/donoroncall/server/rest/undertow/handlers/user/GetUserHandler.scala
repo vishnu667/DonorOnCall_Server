@@ -4,7 +4,6 @@ import com.donoroncall.server.rest.controllers.authentication.SessionHandler
 import com.google.inject.Inject
 import io.undertow.server.{HttpServerExchange, HttpHandler}
 import org.apache.commons.io.IOUtils
-import org.slf4j.{Logger, LoggerFactory}
 import spray.json._
 
 

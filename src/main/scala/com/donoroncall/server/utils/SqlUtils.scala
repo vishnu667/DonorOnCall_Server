@@ -15,8 +15,12 @@ object SqlUtils {
 
   private val LOG: Logger = LoggerFactory.getLogger(this.getClass)
 
-  private val autoIncValuesForTable: Map[String, Array[String]] = Map("users" -> Array("userId"),
-                                                                       "deviceId" -> Array("registered_devices"))
+  private val autoIncValuesForTable: Map[String, Array[String]] = Map(
+    "users" -> Array("userId"),
+    "deviceId" -> Array("registered_devices"),
+    "donation_record" -> Array("donationId"),
+    "blood_request" -> Array("requestId")
+  )
 
   def insert(tableName: String, elements: Map[String, Any]): Long = {
     try {
