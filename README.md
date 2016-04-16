@@ -20,6 +20,15 @@ Requirements
 * java 1.7
 * scala 2.11.7 // Installation is not Required
 
+
+#### Sql Setup 
+
+Update the Configuration File in `src/main/resources/application.conf`
+
+Update Mysql with the [MySql Schema](db.schema)
+
+### Starting the Server
+
 If your using an IDE run the class com.donoroncall.server.BootStrapServer
 
 The file is located in src/main/scala/com/donoroncall/server/BootStrapServer.scala
