@@ -21,6 +21,7 @@ class Routes @Inject()(
                       processCompletion: ProcessCompletion,
                       requestForBlood: RequestForBlood,
                       getDonors: GetDonors,
+                      registerDevice:DeviceRegisterationHandler,
                       adminsApprovalReqAPI: AdminsApprovalReqAPI
 
 
@@ -38,6 +39,7 @@ class Routes @Inject()(
       .addExactPath("/adminApproval", adminsApprovalReqAPI)
       .addExactPath("/register", registrationApiHandler)
       .addExactPath("/getDonors", getDonors)
+      .addExactPath("/device/register",registerDevice)
       .addPrefixPath("/api/", apiRoutes.pathHandler)
   }
 }

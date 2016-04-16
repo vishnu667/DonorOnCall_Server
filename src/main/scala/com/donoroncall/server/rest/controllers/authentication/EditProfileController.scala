@@ -3,6 +3,7 @@ package com.donoroncall.server.rest.controllers.authentication
 import java.security.MessageDigest
 
 import com.donoroncall.server.BootStrapServer.mysqlClient
+import com.donoroncall.server.utils.SqlUtils
 import com.google.inject.Inject
 
 /**
@@ -82,5 +83,13 @@ class EditProfileController @Inject()(sessionHandler: SessionHandler) {
     sha256.update(text.getBytes("UTF-8"))
     val digest = sha256.digest()
     String.format("%064x", new java.math.BigInteger(1, digest))
+  }
+
+  def registerDevice(deviceId: String,userId:Int) :Unit ={
+
+    SqlUtils.insert("registered_devices", Map(
+      "deviceId" -> deviceId,
+      "userId" -> userId
+    ));
   }
 }
