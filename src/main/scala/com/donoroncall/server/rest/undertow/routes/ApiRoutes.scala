@@ -3,6 +3,7 @@ package com.donoroncall.server.rest.undertow.routes
 import com.donoroncall.server.rest.undertow.handlers.DefaultApiHandler
 import com.donoroncall.server.rest.undertow.handlers.admin.AdminApiHandler
 import com.donoroncall.server.rest.undertow.handlers.bloodRequest.{GetBloodRequestHandler, RegisterBloodRequestHandler}
+import com.donoroncall.server.rest.undertow.handlers.donationRecord.{RegisterDonationRecordHandler, GetDonationRecordHandler}
 import com.donoroncall.server.rest.undertow.handlers.user.GetUserHandler
 import com.google.inject.Inject
 import io.undertow.server.handlers.PathHandler
@@ -15,7 +16,9 @@ class ApiRoutes @Inject()(
                            adminApiHandler: AdminApiHandler,
                            getUserHandler: GetUserHandler,
                            registerBloodRequestHandler: RegisterBloodRequestHandler,
-                           getBloodRequestHandler: GetBloodRequestHandler
+                           getBloodRequestHandler: GetBloodRequestHandler,
+                           getDonationRecordHandler: GetDonationRecordHandler,
+                           registerDonationRecordHandler: RegisterDonationRecordHandler
 
                          ) {
 
@@ -24,4 +27,6 @@ class ApiRoutes @Inject()(
     .addExactPath("/user/get", getUserHandler)
     .addExactPath("/bloodRequest/register", registerBloodRequestHandler)
     .addExactPath("/bloodRequest/get", getBloodRequestHandler)
+    .addExactPath("/donationRecord/register", registerDonationRecordHandler)
+    .addExactPath("/donationRecord/get", getDonationRecordHandler)
 }

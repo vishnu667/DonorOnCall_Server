@@ -152,3 +152,60 @@ url: /api/bloodRequest/get
   }
 }
 ```
+
+
+#### Register DonationRecord Api
+
+url: /api/donationRecord/register
+
+```
+# Register
+
+{
+  "token": "8acbbd80e7ce457e8cd5b816fa01302b0fe60c4f276acf349aa39021bf4e98a2",
+  "data": {
+    "requestId": 120,
+    "status": 2,
+    
+  }
+}
+
+# Response
+
+{
+  "status": "ok",
+  "bloodRequest": {
+    "donationId": 2,
+    "userId": 1,
+    "requestId": 120,
+    "status": 2
+  },
+  "messages": [
+    "Donation Record Created Successfully with Id 2"
+  ]
+}
+
+```
+
+#### Get DonationRecord Object Api
+
+url: /api/donationRecord/get
+
+```
+# Request 
+{
+"token": "0e74847772ad2abe9836c66fc2688a826288440a12a5d5d8bf91edb3eded2abe",
+  "donationId":1
+}
+
+# Response
+{
+  "status": "ok",
+  "donationRecord": {
+    "donationId": 1,
+    "userId": 1,
+    "requestId": 120,
+    "status": 2
+  }
+}
+```

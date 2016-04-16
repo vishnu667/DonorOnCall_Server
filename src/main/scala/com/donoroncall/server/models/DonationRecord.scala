@@ -60,18 +60,16 @@ object DonationRecord {
   /**
     *
     * @param requestJson
-    *                    {
-                          "userId":1202,
+    * {
                           "requestId":120,
                           "status":2,
                          }
     * @return
     */
-  def registerDonationRecord(requestJson: JsObject): (DonationRecord, Array[String]) = {
+  def registerDonationRecord(requestJson: JsObject, userId: Long): (DonationRecord, Array[String]) = {
     var donationRecord: DonationRecord = null
     val messages: scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer.empty[String]
     try {
-      val userId = requestJson.getFields("userId").head.asInstanceOf[JsNumber].value.toLong
       val requestId = requestJson.getFields("requestId").head.asInstanceOf[JsNumber].value.toLong
       val status = requestJson.getFields("status").head.asInstanceOf[JsNumber].value.toInt
 
