@@ -1,4 +1,8 @@
 
+# MYSQL DATABASE SCHEMA 
+
+Update your mysql database to Run the Application
+
 ```
 CREATE DATABASE donor_on_call;
 

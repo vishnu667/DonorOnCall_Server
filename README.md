@@ -25,7 +25,7 @@ Requirements
 
 Update the Configuration File in `src/main/resources/application.conf`
 
-Update Mysql with the [MySql Schema](db.schema)
+Update Mysql with the [MySql Schema](db-schema.md)
 
 ### Starting the Server
 
