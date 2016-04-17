@@ -158,6 +158,17 @@ url: /api/bloodRequest/get
 
 url: /api/donationRecord/register
 
+Options for status parameter are 
+
+* deleted record
+* request completed
+* recipient canceled
+* pending
+* donor accepted
+* donor canceled
+* successfully completed
+* invalid status // Default Value will be ignored if the status is being set to this
+
 ```
 # Register
 
@@ -165,7 +176,7 @@ url: /api/donationRecord/register
   "token": "8acbbd80e7ce457e8cd5b816fa01302b0fe60c4f276acf349aa39021bf4e98a2",
   "data": {
     "requestId": 120,
-    "status": 2,
+    "status": "donor accepted",
     
   }
 }
@@ -178,7 +189,7 @@ url: /api/donationRecord/register
     "donationId": 2,
     "userId": 1,
     "requestId": 120,
-    "status": 2
+    "status": "donor accepted"
   },
   "messages": [
     "Donation Record Created Successfully with Id 2"
@@ -205,7 +216,7 @@ url: /api/donationRecord/get
     "donationId": 1,
     "userId": 1,
     "requestId": 120,
-    "status": 2
+    "status": "donor accepted"
   }
 }
 ```

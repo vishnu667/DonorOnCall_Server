@@ -23,8 +23,6 @@ class Routes @Inject()(
                       getDonors: GetDonors,
                       registerDevice:DeviceRegisterationHandler,
                       adminsApprovalReqAPI: AdminsApprovalReqAPI
-
-
                       ) {
 
   def getAllHandlers: HttpHandler = {

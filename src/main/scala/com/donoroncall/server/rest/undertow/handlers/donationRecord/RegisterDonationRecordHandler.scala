@@ -20,7 +20,7 @@ class RegisterDonationRecordHandler @Inject()(sessionHandler: SessionHandler) ex
                     "token": "8acbbd80e7ce457e8cd5b816fa01302b0fe60c4f276acf349aa39021bf4e98a2",
                     "data":{
                           "requestId":120,
-                          "status":2,
+                          "status":"donor accepted",
                          }
                   }
 
@@ -31,7 +31,7 @@ class RegisterDonationRecordHandler @Inject()(sessionHandler: SessionHandler) ex
     "donationId": 2,
     "userId": 1,
     "requestId": 120,
-    "status": 2
+    "status": "donor accepted"
   },
   "messages": ["Donation Record Created Successfully with Id 2"]
 }
