@@ -5,7 +5,7 @@ import java.sql.ResultSet
 import com.donoroncall.server.BootStrapServer._
 import com.donoroncall.server.utils.SqlUtils
 import org.slf4j.{LoggerFactory, Logger}
-import spray.json.{JsNumber, JsObject}
+import spray.json.{JsString, JsNumber, JsObject}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -38,13 +38,34 @@ class DonationRecord(
     "donationId" -> JsNumber(donationId),
     "userId" -> JsNumber(userId),
     "requestId" -> JsNumber(requestId),
-    "status" -> JsNumber(status)
+    "status" -> JsString(DonationRecord.statusToString(status))
   )
-
 }
 
 object DonationRecord {
   private val LOG: Logger = LoggerFactory.getLogger(this.getClass)
+
+  def statusToString(i: Int): String = i match {
+    case -2 => "deleted record"
+    case -1 => "request completed"
+    case 0 => "recipient canceled"
+    case 1 => "pending"
+    case 2 => "donor accepted"
+    case 3 => "donor canceled"
+    case 4 => "successfully completed"
+    case _ => "invalid status"
+  }
+
+  def statusToInt(s: String): Int = s.toLowerCase match {
+    case "deleted record" => -2
+    case "request completed" => -1
+    case "recipient canceled" => 0
+    case "pending" => 1
+    case "donor accepted" => 2
+    case "donor canceled" => 3
+    case "successfully completed" => 4
+    case _ => -99
+  }
 
   def getDonationRecord(donationId: Long) = try {
     val resultSet = mysqlClient.getResultSet("SELECT * from donation_record where donationId=" + donationId)
@@ -62,7 +83,7 @@ object DonationRecord {
     * @param requestJson
     * {
                           "requestId":120,
-                          "status":2,
+                          "status":"donor accepted",
                          }
     * @return
     */
@@ -71,16 +92,21 @@ object DonationRecord {
     val messages: scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer.empty[String]
     try {
       val requestId = requestJson.getFields("requestId").head.asInstanceOf[JsNumber].value.toLong
-      val status = requestJson.getFields("status").head.asInstanceOf[JsNumber].value.toInt
+      val status = requestJson.getFields("status").head.asInstanceOf[JsString].value
 
-      val donationId = SqlUtils.insert("donation_record", Map(
-        "user_id" -> userId,
-        "request_id" -> requestId,
-        "status" -> status
-      ))
+      if (-99 != statusToInt(status)) {
+        val donationId = SqlUtils.insert("donation_record", Map(
+          "user_id" -> userId,
+          "request_id" -> requestId,
+          "status" -> statusToInt(status)
+        ))
+        donationRecord = getDonationRecord(donationId)
+        messages += "Donation Record Created Successfully with Id " + donationId
+      } else {
+        messages += "Invalid Status Variable"
+      }
 
-      donationRecord = getDonationRecord(donationId)
-      messages += "Donation Record Created Successfully with Id " + donationId
+
     } catch {
       case u: UnsupportedOperationException => {
         messages += "Invalid Request Json"

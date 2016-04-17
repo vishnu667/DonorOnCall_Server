@@ -28,7 +28,7 @@ class GetDonationRecordHandler @Inject()(sessionHandler: SessionHandler) extends
     "donationId": 1,
     "userId": 1,
     "requestId": 120,
-    "status": 2
+    "status": "donor accepted"
   }
 }
     */
