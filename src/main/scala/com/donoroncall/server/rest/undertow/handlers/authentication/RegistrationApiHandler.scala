@@ -31,6 +31,7 @@ class RegistrationApiHandler @Inject()(authenticationController: AuthenticationC
           ).prettyPrint)
         } else {
           //TODO add logic for Failed Registration
+          exchange.setStatusCode(400)
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
             "message" -> JsString("Registration Failed"),
@@ -41,6 +42,7 @@ class RegistrationApiHandler @Inject()(authenticationController: AuthenticationC
 
       } catch {
         case e: Exception => {
+          exchange.setStatusCode(400)
           exchange.getResponseSender.send(JsObject(
             "status" -> JsString("failed"),
             "message" -> JsString("Registration Failed")
