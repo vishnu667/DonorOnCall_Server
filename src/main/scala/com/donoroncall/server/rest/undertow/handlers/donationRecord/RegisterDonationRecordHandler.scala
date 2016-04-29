@@ -1,7 +1,7 @@
 package com.donoroncall.server.rest.undertow.handlers.donationRecord
 
 import com.donoroncall.server.models.{DonationRecord, BloodRequest, User}
-import com.donoroncall.server.rest.controllers.authentication.SessionHandler
+import com.donoroncall.server.rest.controllers.authentication.session.SessionHandler
 import com.google.inject.Inject
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
