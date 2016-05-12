@@ -33,7 +33,7 @@ class UndertowApiServer @Inject()(config: Config,routes: Routes) extends ServerI
         LOG.info("The Server is Active on http://" + interfaceName + ":" + port)
         true
       } catch {
-        case e: Exception => LOG.error("Server Initialization Failed ", e.getLocalizedMessage)
+        case e: Exception => LOG.error("Server Initialization Failed ", e)
           false
       }
     }

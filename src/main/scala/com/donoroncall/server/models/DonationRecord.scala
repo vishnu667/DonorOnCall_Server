@@ -28,11 +28,21 @@ import scala.collection.mutable.ArrayBuffer
   *                   4 => Successfully Completed
   */
 class DonationRecord(
-                      donationId: Long = 0,
-                      userId: Long,
-                      requestId: Long,
-                      status: Int = 0
+                      val donationId: Long = 0,
+                      val userId: Long,
+                      val requestId: Long,
+                      val status: Int = 0
                     ) {
+
+  def getStatusString: String = status match {
+    case -2 => "Deleted Record"
+    case -1 => "Request Completed"
+    case 0 => "Recipient Canceled"
+    case 1 => "Pending"
+    case 2 => "Donor Accepted"
+    case 3 => "Donor Canceled"
+    case 4 => "Successfully Completed"
+  }
 
   def toJson: JsObject = JsObject(
     "donationId" -> JsNumber(donationId),
@@ -132,6 +142,20 @@ object DonationRecord {
       requestId = requestId,
       status = status
     )
+  }
+
+  def getDonationRecordsFor(bloodRequest: BloodRequest, statusAbove: Int = 2): Array[(DonationRecord, User)] = {
+
+    val donationRecords: scala.collection.mutable.ArrayBuffer[(DonationRecord, User)] = ArrayBuffer.empty[(DonationRecord, User)]
+
+    val resultSet = mysqlClient.getResultSet("SELECT * from donation_record where request_id=" + bloodRequest.requestId + " and status>=" + statusAbove)
+
+    while (resultSet.next()) {
+
+      val donationRecord = getDonationRecordFromResultSet(resultSet)
+      donationRecords += donationRecord -> User.getUser(donationRecord.userId)
+    }
+    donationRecords.toArray
   }
 
 }

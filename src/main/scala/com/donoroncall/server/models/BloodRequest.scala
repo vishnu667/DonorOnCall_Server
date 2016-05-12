@@ -13,22 +13,22 @@ import scala.collection.mutable.ArrayBuffer
   * Created by vishnu on 14/4/16.
   */
 class BloodRequest(
-                    createdUserId: Long,
-                    contactNumber: String,
-                    hospitalName: String,
-                    hospitalAddress: String,
-                    patientName: String,
-                    requiredUnits: Int,
-                    promisedUnits: Int = 0,
-                    fulfilledUnits: Int = 0,
-                    requiredWithin: Long,
-                    bloodGroup: String,
-                    requestId: Long = 0,
-                    purpose: String = "",
-                    status: Int = 0, //-1 rejected, 0 not approved, 1 approved, 2 Complete
-                    comment: String = "",
-                    lat: Double = 0.0,
-                    lon: Double = 0.0
+                    val createdUserId: Long,
+                    val contactNumber: String,
+                    val hospitalName: String,
+                    val hospitalAddress: String,
+                    val patientName: String,
+                    val requiredUnits: Int,
+                    val promisedUnits: Int = 0,
+                    val fulfilledUnits: Int = 0,
+                    val requiredWithin: Long,
+                    val bloodGroup: String,
+                    val requestId: Long = 0,
+                    val purpose: String = "",
+                    val status: Int = 0, //-1 rejected, 0 not
+                    val comment: String = "",
+                    val lat: Double = 0.0,
+                    val lon: Double = 0.0
                   ) {
 
   def toJson: JsObject = JsObject(
