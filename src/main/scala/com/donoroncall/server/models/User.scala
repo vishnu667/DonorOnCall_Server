@@ -119,7 +119,7 @@ object User {
         messages += "User Created Successfully with Id " + userId
       } else {
         if (sanityCheck.getString(1).equals(userName)) messages += "userName : " + userName + " Exists !"
-        if (sanityCheck.getString(2).equals(email)) messages += "email " + email + " Exists !"
+        if (sanityCheck.getString(2).equals(email)) messages += "Email id already exists.Please login with new email id"
       }
 
     } catch {
@@ -128,7 +128,7 @@ object User {
         LOG.debug("Error While Creating user", u)
       }
       case e: Exception => {
-        messages += e.getLocalizedMessage
+        messages += "Sorry unable to process your request please try again after some time"
         LOG.debug("Error While Creating user", e)
       }
     }
