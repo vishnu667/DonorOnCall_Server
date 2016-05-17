@@ -76,7 +76,9 @@ class GetBloodRequestHandler @Inject()(sessionHandler: SessionHandler) extends H
                 "donorDetails" -> JsArray(DonationRecord.getDonationRecordsFor(bloodRequest, 2).map(i => {
                   JsObject(
                     "status" -> JsString(i._1.getStatusString),
-                    "user Name" -> JsString(i._2.name),
+                    "name" -> JsString(i._2.name),
+                    "phone" -> JsString(i._2.phone),
+                    "age" -> JsNumber(i._2.age),
                     "zipCode" -> JsString(i._2.zipCode.toString)
                   )
                 }).toVector)

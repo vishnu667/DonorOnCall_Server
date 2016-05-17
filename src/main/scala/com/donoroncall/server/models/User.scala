@@ -1,7 +1,7 @@
 package com.donoroncall.server.models
 
 import java.sql.ResultSet
-import java.util.Date
+import java.util.{Calendar, Date}
 import java.text.{SimpleDateFormat, DateFormat}
 import com.donoroncall.server.BootStrapServer.mysqlClient
 import com.donoroncall.server.utils.{Security, SqlUtils}
@@ -26,6 +26,17 @@ class User(
             val lon: Double = 0.0,
             val phone: String
           ) {
+
+  def age: Int = {
+    val calDOB = Calendar.getInstance()
+    calDOB.setTime(dob)
+    val calNow = Calendar.getInstance()
+    val age = calNow.get(Calendar.YEAR) - calDOB.get(Calendar.YEAR)
+    if (calNow.get(Calendar.DAY_OF_YEAR) < calDOB.get(Calendar.DAY_OF_YEAR))
+      age - 1
+    else
+      age
+  }
 
   def toJson: JsObject = JsObject(
     "email" -> JsString(email),
