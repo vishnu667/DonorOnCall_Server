@@ -11,6 +11,14 @@ import scala.collection.mutable.ArrayBuffer
 
 /**
   * Created by vishnu on 14/4/16.
+  *
+  * Magic Number Status:
+  * -1 rejected by admin
+  * 0 unsuccessfully completed
+  * 1 successfully completed
+  * 2 not approved by admin
+  * 3 approved by admin
+  *
   */
 class BloodRequest(
                     val createdUserId: Long,
@@ -45,7 +53,7 @@ class BloodRequest(
     "fulfilledUnits" -> JsNumber(fulfilledUnits),
     "requiredWithin" -> JsNumber(requiredWithin),
     "requestId" -> JsNumber(requestId),
-    "status" -> JsNumber(status),
+    "status" -> JsString(BloodRequest.statusToString(status)),
     "lat" -> JsNumber(lat),
     "lon" -> JsNumber(lon)
   )
@@ -54,6 +62,24 @@ class BloodRequest(
 object BloodRequest {
 
   private val LOG: Logger = LoggerFactory.getLogger(this.getClass)
+
+  def statusToString(i: Int): String = i match {
+    case -1 => "rejected by admin"
+    case 0 => "unsuccessfully completed"
+    case 1 => "successfully completed"
+    case 2 => "not approved by admin"
+    case 3 => "approved by admin"
+    case _ => "invalid status"
+  }
+
+  def statusToInt(s: String): Int = s.toLowerCase match {
+    case "rejected by admin" => -1
+    case "unsuccessfully completed" => 0
+    case "successfully completed" => 1
+    case "not approved by admin" => 2
+    case "approved by admin" => 3
+    case _ => -99
+  }
 
   def updateDb(bloodRequest: BloodRequest) = {
 
