@@ -2,6 +2,7 @@ package com.donoroncall.server.rest.controllers.authentication
 
 import java.util
 import com.donoroncall.server.BootStrapServer.mysqlClient
+import com.donoroncall.server.rest.controllers.authentication.session.SessionHandler
 import com.donoroncall.server.utils.Security
 import com.google.inject.Inject
 

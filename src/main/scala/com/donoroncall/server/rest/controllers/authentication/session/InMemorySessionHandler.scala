@@ -1,9 +1,9 @@
-package com.donoroncall.server.rest.controllers.authentication
+package com.donoroncall.server.rest.controllers.authentication.session
 
 import com.donoroncall.server.utils.TokenGenerator
 import com.google.inject.Inject
 import com.typesafe.config.Config
-import org.slf4j.{LoggerFactory, Logger}
+import org.slf4j.{Logger, LoggerFactory}
 import spray.json.{JsNumber, JsObject}
 
 /**

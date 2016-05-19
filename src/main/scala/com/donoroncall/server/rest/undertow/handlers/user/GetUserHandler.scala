@@ -1,6 +1,6 @@
 package com.donoroncall.server.rest.undertow.handlers.user
 
-import com.donoroncall.server.rest.controllers.authentication.SessionHandler
+import com.donoroncall.server.rest.controllers.authentication.session.SessionHandler
 import com.google.inject.Inject
 import io.undertow.server.{HttpServerExchange, HttpHandler}
 import org.apache.commons.io.IOUtils

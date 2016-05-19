@@ -1,6 +1,6 @@
 package com.donoroncall.server.rest.undertow.handlers.authentication
 
-import com.donoroncall.server.rest.controllers.authentication.{SessionHandler, AuthenticationController}
+import com.donoroncall.server.rest.controllers.authentication.AuthenticationController
 import com.google.inject.Inject
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import io.undertow.util.HttpString

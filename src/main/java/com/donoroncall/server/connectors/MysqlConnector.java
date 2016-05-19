@@ -15,7 +15,7 @@ import java.sql.SQLException;
 /**
  * Created by vishnu on 20/1/16.
  */
-public class MysqlClient {
+public class MysqlConnector {
 
     private Logger LOG = LoggerFactory.getLogger(this.getClass());
     public String dbc;
@@ -23,7 +23,7 @@ public class MysqlClient {
     private Connection connection;
 
     @Inject
-    public MysqlClient(Config config) throws SQLException {
+    public MysqlConnector(Config config) throws SQLException {
         String host = config.getString("server.mysql.host");
         String port = config.getString("server.mysql.port");
         String user = config.getString("server.mysql.user");

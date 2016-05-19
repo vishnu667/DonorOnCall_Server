@@ -1,4 +1,4 @@
-package com.donoroncall.server.rest.controllers.authentication
+package com.donoroncall.server.rest.controllers.authentication.session
 
 import com.donoroncall.server.models.User
 import spray.json.JsObject
