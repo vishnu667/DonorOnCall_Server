@@ -14,7 +14,7 @@ class RedisConnector @Inject()(config: Config) {
     f.getString("name") -> new RedisClient(
       config.getString("server.redis.host"),
       config.getString("server.redis.port").toInt,
-      f.getInt("database"))
+      f.getInt("number"))
   ).toMap
 
   def getClient(database: String): RedisClient = clientsMap.getOrElse(database, null)

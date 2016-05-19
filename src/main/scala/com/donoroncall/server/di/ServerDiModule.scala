@@ -1,6 +1,6 @@
 package com.donoroncall.server.di
 
-import com.donoroncall.server.connectors.MysqlConnector
+import com.donoroncall.server.connectors.{RedisConnector, MysqlConnector}
 import com.donoroncall.server.rest.ServerInterface
 import com.donoroncall.server.rest.controllers.authentication.session.{RedisSessionHandler, InMemorySessionHandler, SessionHandler}
 import com.donoroncall.server.rest.undertow.UndertowApiServer
@@ -18,8 +18,14 @@ class ServerDiModule(config: Config) extends AbstractModule with ScalaModule {
     bind[MysqlConnector].asInstanceOf[Singleton]
 
     config.getString("server.security.sessionHandler") match {
+
       case "InMemorySessionHandler" => bind[SessionHandler].to[InMemorySessionHandler].asInstanceOf[Singleton]
-      case "RedisSessionHandler" => bind[SessionHandler].to[RedisSessionHandler].asInstanceOf[Singleton]
+
+      case "RedisSessionHandler" => {
+        bind[RedisConnector].asInstanceOf[Singleton]
+        bind[SessionHandler].to[RedisSessionHandler].asInstanceOf[Singleton]
+      }
+
       case _ => bind[SessionHandler].to[InMemorySessionHandler].asInstanceOf[Singleton]
     }
     bind[ServerInterface].to[UndertowApiServer].asInstanceOf[Singleton]
