@@ -1,7 +1,7 @@
 package com.donoroncall.server.rest.undertow.handlers.bloodRequest
 
-import com.donoroncall.server.models.{BloodRequest, User}
 import com.donoroncall.server.rest.controllers.authentication.session.SessionHandler
+import com.donoroncall.server.models.{DonationRecord, BloodRequest, User}
 import com.google.inject.Inject
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
@@ -67,10 +67,28 @@ class GetBloodRequestHandler @Inject()(sessionHandler: SessionHandler) extends H
           val bloodRequest = BloodRequest.getBloodRequest(requestId)
 
           if (bloodRequest != null) {
-            exchange.getResponseSender.send(JsObject(
-              "status" -> JsString("ok"),
-              "bloodRequest" -> bloodRequest.toJson
-            ).prettyPrint)
+            if (bloodRequest.createdUserId == user.userId) {
+
+              exchange.getResponseSender.send(JsObject(
+                "status" -> JsString("ok"),
+                "bloodRequest" -> bloodRequest.toJson,
+                //TODO give more information about the user
+                "donorDetails" -> JsArray(DonationRecord.getDonationRecordsFor(bloodRequest, 2).map(i => {
+                  JsObject(
+                    "status" -> JsString(i._1.getStatusString),
+                    "name" -> JsString(i._2.name),
+                    "phone" -> JsString(i._2.phone),
+                    "age" -> JsNumber(i._2.age),
+                    "zipCode" -> JsString(i._2.zipCode.toString)
+                  )
+                }).toVector)
+              ).prettyPrint)
+            } else {
+              exchange.getResponseSender.send(JsObject(
+                "status" -> JsString("ok"),
+                "bloodRequest" -> bloodRequest.toJson
+              ).prettyPrint)
+            }
           } else {
             exchange.getResponseSender.send(JsObject(
               "status" -> JsString("failed"),
